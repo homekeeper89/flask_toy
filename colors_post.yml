@@ -2,24 +2,74 @@
 타이틀 추가 설명
 ---
 parameters:
-  - name: geolocate_return
+  - name: body
     in: body
-    type: string
+    description: "geolocate에 필요한 object"
+    type: object
     required: true
+    schema:
+      $ref: "#/definitions/geolocate"
 definitions:
-  Palette:
+  geolocate:
+    type: "object"
+    properties:
+      homeMobileCountryCode:
+        type: integer
+        example: 310
+        description: "해당 폰의 지역 코드"
+      homeMobileNetworkCode:
+        type: integer
+        example: 410
+      radioType:
+        type: string
+        example: gsm
+      carrier:
+        type: string
+        example: Vodafone
+      considerIp:
+        type: string
+        enum:
+          - "true"
+          - "false"
+        example: 'true'
+      cellTowers:
+        type: array
+        example: []
+      wifiAccessPoints:
+        type: object
+        properties:
+          macAddress:
+            type: string
+            example: 00:25:9c:cf:1c:ac
+          signalStrength:
+            type: integer
+            example: -43
+          age:
+            type: integer
+            example: 10
+          channel:
+            type: integer
+            example:  11
+          signalToNoiseRatio:
+            type: integer
+            example: 10
+  location_array:
     type: object
     properties:
-      palette_name:
-        type: array
-        items:
-          $ref: '#/definitions/Color'
-  Color:
-    type: string
+      accuracy:
+        type: integer
+        example: 1259
+      location:
+        type: object
+        properties:
+          lat: 
+            type: integer
+            example: 37.3571598
+          lng:
+            type: integer
+            example: 126.94334850000001
 responses:
   200:
     description: A list of colors (may be filtered by palette)
     schema:
-      $ref: '#/definitions/Palette'
-    examples:
-      rgb: ['red', 'green', 'blue']
+      $ref: '#/definitions/location_array'
