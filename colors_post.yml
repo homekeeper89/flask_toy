@@ -2,11 +2,10 @@
 타이틀 추가 설명
 ---
 parameters:
-  - name: json
+  - name: geolocate_return
     in: body
     type: string
     required: true
-    default: all
 definitions:
   Palette:
     type: object
