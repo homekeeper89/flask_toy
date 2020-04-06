@@ -14,4 +14,4 @@ class TestB:
             1 / 0
 
 
-# py.test "(a or B) and not c" 왜 안되지
+# py.test -k "(a or B) and not c" 왜 안되지
