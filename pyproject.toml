@@ -5,9 +5,10 @@ description = ""
 authors = ["matthew <matthew@cupist.com>"]
 
 [tool.poetry.dependencies]
-python = "^2.7"
+python = "^3.7"
 flask = "^1.1.1"
 flasgger = "^0.9.4"
+pytest = "^5.4.1"
 
 [tool.poetry.dev-dependencies]
 
