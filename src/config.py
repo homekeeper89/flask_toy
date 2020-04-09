@@ -8,6 +8,10 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = "super-sEcReat"
+    SQLALCHEMY_DATABASE_URI = (
+        os.environ.get("DEV_DATABASE_URL")
+        or "mysql+mysqlconnector://root:root@localhost:3306/flask"
+    )
 
 
 class ProductionConfig(Config):

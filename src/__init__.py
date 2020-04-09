@@ -10,5 +10,6 @@ def init_blueprint(app: Flask) -> None:
 def create_app(env: str = "dev") -> Flask:
     app = Flask(__name__)
     app.config.from_object(config[env])
+
     init_blueprint(app)
     return app
