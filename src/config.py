@@ -28,6 +28,10 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     NAME = "TEST"
+    SQLALCHEMY_DATABASE_URI = (
+        os.environ.get("DEV_DATABASE_URL")
+        or "mysql+mysqlconnector://root:root@localhost:3306/flask_test"
+    )
 
 
 config = {"test": TestingConfig, "dev": DevelopmentConfig, "prod": ProductionConfig}
