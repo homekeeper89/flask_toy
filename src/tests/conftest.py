@@ -58,6 +58,7 @@ def session(db, request):
     session = db.create_scoped_session(options=options)
 
     db.session = session
+    print(session)
 
     def teardown():
         transaction.rollback()
