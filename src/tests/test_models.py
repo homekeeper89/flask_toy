@@ -10,4 +10,6 @@ def test_db_set(session):
     user = {"nickname": "nickanme", "birthday": "nickanme"}
     session.add(UserModel(**user))
     session.commit()
-    assert UserModel.id > 0
+
+    res = session.query(UserModel).first()
+    assert res.id != 0

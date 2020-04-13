@@ -3,6 +3,9 @@ import pytest
 
 from src import create_app
 from src.database import db as _db
+from alembic.command import upgrade as alembic_upgrade
+from alembic.config import Config as AlembicConfig
+from alembic.config import Config
 
 
 TESTDB = "test_project.db"
@@ -13,7 +16,7 @@ TEST_DATABASE_URI = "sqlite:///" + TESTDB_PATH
 @pytest.fixture(scope="session")
 def app(request):
     """Session-wide test `Flask` application."""
-    app = create_app("dev")
+    app = create_app("test")
 
     # Establish an application context before running the tests.
     ctx = app.app_context()
@@ -31,21 +34,34 @@ def flask_client(app):
     return app.test_client()
 
 
+from alembic.command import upgrade
+from alembic.config import Config
+
+
 @pytest.fixture(scope="session")
 def db(app, request):
     """Session-wide test database."""
     if os.path.exists(TESTDB_PATH):
         os.unlink(TESTDB_PATH)
 
-    def teardown():
-        _db.drop_all()
-        # os.unlink(TESTDB_PATH)
+    # def teardown():
+    #     _db.drop_all()
+    # os.unlink(TESTDB_PATH)
 
-    _db.app = app
-    _db.create_all()
+    alembic_config = AlembicConfig("../alembic.ini")
+    alembic_config.set_main_option(
+        "sqlalchemy.url", "mysql+mysqlconnector://root:root@localhost:3306/flask_test"
+    )
+    alembic_upgrade(alembic_config, "head")
 
-    request.addfinalizer(teardown)
+    # _db.app = app
+    # _db.create_all()
+
+    # request.addfinalizer(teardown)
     return _db
+
+
+from src.model.models import UserModel
 
 
 @pytest.fixture(scope="function")
@@ -58,7 +74,6 @@ def session(db, request):
     session = db.create_scoped_session(options=options)
 
     db.session = session
-    print(session)
 
     def teardown():
         transaction.rollback()
