@@ -48,12 +48,11 @@ def db(app, request):
     #     _db.drop_all()
     # os.unlink(TESTDB_PATH)
 
-    alembic_config = AlembicConfig("../alembic.ini")
+    alembic_config = AlembicConfig("./alembic.ini")
     alembic_config.set_main_option(
-        "sqlalchemy.url", "mysql+mysqlconnector://root:root@localhost:3306/flask_test"
+        "sqlalchemy.url", "mysql+mysqlconnector://root:root@localhost:3306/local_dev"
     )
     alembic_upgrade(alembic_config, "head")
-
     # _db.app = app
     # _db.create_all()
 

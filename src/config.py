@@ -10,7 +10,7 @@ class Config(object):
     SECRET_KEY = "super-sEcReat"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
-        or "mysql+mysqlconnector://root:root@localhost:3306/flask"
+        or "mysql+mysqlconnector://root:root@localhost:3306/local_dev"
     )
 
 
@@ -30,7 +30,7 @@ class TestingConfig(Config):
     NAME = "TEST"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
-        or "mysql+mysqlconnector://root:root@localhost:3306/flask"
+        or "mysql+mysqlconnector://root:root@localhost:3306/local_dev"
     )
 
 
