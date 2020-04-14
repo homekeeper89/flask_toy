@@ -2,6 +2,8 @@ import pytest
 from src import create_app
 from src.database import db as _db
 
+# https://stewartadam.io/blog/2019/04/04/testing-flask-applications-code-database-views-flask-config-and-app-context-pytest
+
 
 @pytest.fixture(scope="session")
 def app():
@@ -15,7 +17,6 @@ def app():
     app_context.pop()
 
 
-# noinspection PyShadowingNames
 @pytest.fixture(scope="session")
 def db(app):
     with app.app_context():
@@ -29,25 +30,19 @@ def flask_client(app, db):
     return app.test_client()
 
 
-# @pytest.fixture(scope="function")
-# def session(db: SQLAlchemy, request: SubRequest) -> scoped_session:
-#     """
-#     Creates a new persistence session for a tests.
-#     http://alexmic.net/flask-sqlalchemy-pytest/
-#     """
-#     connection = db.engine.connect()
-#     transaction = connection.begin()
+@pytest.fixture(scope="function")
+def session(app, db, request):
+    """Creates a new database session for each test, rolling back changes afterwards"""
+    connection = _db.engine.connect()
+    transaction = connection.begin()
 
-#     options = dict(bind=connection, binds={})
-#     session = db.create_scoped_session(options=options)
+    options = dict(bind=connection, binds={})
+    session = _db.create_scoped_session(options=options)
 
-#     db.session = session
+    _db.session = session
 
-#     def teardown():
-#         transaction.rollback()
-#         connection.close()
-#         session.remove()
+    yield session
 
-#     request.addfinalizer(teardown)
-
-#     return session
+    transaction.rollback()
+    connection.close()
+    session.remove()

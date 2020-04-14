@@ -7,9 +7,8 @@ def test_run_app(app):
     assert app is not None
 
 
-@pytest.mark.skip(reason="작업중")
 def test_db_set(session):
-    user = {"nickname": "nickanme", "birthday": "nickanme"}
+    user = {"id": 1, "name": "helloWorld"}
     session.add(User(**user))
     session.commit()
 
