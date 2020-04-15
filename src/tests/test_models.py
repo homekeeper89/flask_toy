@@ -3,7 +3,7 @@ from src.model.models import User
 import pytest
 
 
-def test_run_app(app):
+def test_is_app_running(app):
     assert app is not None
 
 
