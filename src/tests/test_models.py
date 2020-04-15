@@ -7,7 +7,7 @@ def test_run_app(app):
     assert app is not None
 
 
-def test_db_set(session):
+def test_is_session_work(session):
     user = {"id": 1, "name": "helloWorld"}
     session.add(User(**user))
     session.commit()
