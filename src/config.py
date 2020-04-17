@@ -16,7 +16,6 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
-    NAME = "PROD"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
         or "mysql+mysqlconnector://root:root@localhost:3306/local_prod"
@@ -26,7 +25,6 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    NAME = "DEV"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
         or "mysql+mysqlconnector://root:root@localhost:3306/local_dev"
@@ -35,7 +33,6 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    NAME = "TEST"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
         or "mysql+mysqlconnector://root:root@localhost:3306/local_test"
