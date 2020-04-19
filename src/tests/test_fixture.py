@@ -1,28 +1,4 @@
-from . import *
-import random
-
-
-@pytest.fixture
-def rnd():
-    return random.random()
-
-
-@pytest.fixture
-def fixture_a(rnd):
-    return rnd
-
-
-@pytest.fixture
-def fixture_b(rnd):
-    return rnd
-
-
-def test_rnd(rnd):
-    print(rnd)
-
-
-def test_multiple(fixture_a, fixture_b):
-    assert fixture_a == fixture_b
+import pytest
 
 
 @pytest.fixture(params=["ora", "pg", "sqlite"])
@@ -30,23 +6,28 @@ def params(request):
     return request.param
 
 
+@pytest.mark.skip
+def test_param(params):
+    assert params == "ora"
+
+
 try:
-    import cs_Oracle as ora
+    import cx_Oracle as ora
 except ImportError:
     ora = None
 
 needs_ora = pytest.mark.skipif(ora is None, reason="No Oracle installed")
 
 
-@pytest.fixture(params=["pg", needs_ora("ora")])
-def param_two(request):
+@pytest.fixture(
+    params=["pg", needs_ora("ora"),]
+)
+def sample_db(request):
     return request.param
 
 
-def test_param(params):
-    assert params == "ora"
-
-
-def test_param_two(param_two):
-    assert param_two is True
+@pytest.mark.skip(reason="이상하게 작동하는 테스트")
+def test_sample(sample_db):
+    print(sample_db)
+    assert sample_db is "pg"
 
