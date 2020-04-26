@@ -14,10 +14,28 @@ def test_greater():
     num = 100
     assert num > 100
 
-@pytest.mark.xfail
+@pytest.mark.xfail(reason="known parser issue")
 @pytest.mark.great
 def test_greater_equal():
     num = 100
     assert num >= 100
 # xfail을 사용하는 이유?
 #The xfail test should pass and is expected to pass in the future, but is expected to fail given the current state of the software.
+# flask_toy/tests/test_skip.py xX 의 결과, 즉 대문자 X는 통과했음을 의미한다.
+
+@pytest.mark.parametrize(
+    ("n", "expected"),
+    [
+        (1, 2),
+        pytest.param(1, 0, marks=pytest.mark.xfail),
+        pytest.param(1, 3, marks=pytest.mark.xfail(reason="some bug")),
+        (2, 3),
+        (3, 4),
+        (4, 5),
+        pytest.param(
+            10, 11, marks=pytest.mark.skipif(sys.version_info >= (3, 0), reason="py2k")
+        ),
+    ],
+)
+def test_increment(n, expected):
+    assert n + 1 == expected
