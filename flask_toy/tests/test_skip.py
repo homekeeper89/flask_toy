@@ -39,3 +39,14 @@ def test_greater_equal():
 )
 def test_increment(n, expected):
     assert n + 1 == expected
+
+
+# NOTE : hello_world를 사용할 수 있다. 
+def hello_world(*args, **kwargs):
+    return f"Hello World{args}"
+
+
+@pytest.mark.my_marker.with_args(hello_world)
+def test_with_args():
+    import ipdb; ipdb.set_trace()
+    assert True
