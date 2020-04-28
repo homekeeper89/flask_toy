@@ -45,8 +45,9 @@ def test_increment(n, expected):
 def hello_world(*args, **kwargs):
     return f"Hello World{args}"
 
-
+# pytest -x --pdb fail 뜨면 멈춤
+# pytest test_skip.py --pdb --pdbcls=IPython.terminal.debugger:Pdb
+# > ipdb를 사용하는 것
 @pytest.mark.my_marker.with_args(hello_world)
 def test_with_args():
-    import ipdb; ipdb.set_trace()
-    assert True
+    assert 3 == 2
