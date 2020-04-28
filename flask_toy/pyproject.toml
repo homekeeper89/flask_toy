@@ -6,6 +6,8 @@ authors = ["matthew <homekeeper89@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^2.7"
+pytest-cov = "^2.8.1"
+pytest-xdist = "^1.31.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.6"
