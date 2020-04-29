@@ -6,8 +6,7 @@ swagger = Swagger(app)
 
 @app.route('/colors/<palette>/')
 def colors(palette):
-    """Example endpoint returning a list of colors by palette
-    This is using docstrings for specifications.
+    """get colors from palette.
     ---
     parameters:
       - name: palette
@@ -25,7 +24,7 @@ def colors(palette):
             items:
               $ref: '#/definitions/Color'
       Color:
-        type: string
+        type: 타입
     responses:
       200:
         description: A list of colors (may be filtered by palette)
