@@ -32,10 +32,17 @@ def test_greater_equal():
         (2, 3),
         (3, 4),
         (4, 5),
-        pytest.param(
-            10, 11, marks=pytest.mark.skipif(sys.version_info >= (3, 0), reason="py2k")
-        ),
+        pytest.param(10, 11, marks=pytest.mark.skipif(sys.version_info >= (3, 0), reason="py2k"))
     ],
+    ids = [
+            "kk",
+            "kk",
+            "kk",
+            "kk",
+            "kk",
+            "kk",
+            "kk",
+        ]
 )
 def test_increment(n, expected):
     assert n + 1 == expected
