@@ -12,7 +12,6 @@ def test_create_todo_should_success(session):
 
     data = User(**user_data)
     UserRepository.create(data)
-
     data = Todos(**todo_data)
     TodoRepository.create(data)
 
