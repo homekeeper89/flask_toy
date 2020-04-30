@@ -5,11 +5,17 @@ description = ""
 authors = ["matthew <matthew@cupist.com>"]
 
 [tool.poetry.dependencies]
-python = "^2.7"
+python = "^3.7"
 flask = "^1.1.1"
 flasgger = "^0.9.4"
+pytest = "^5.4.1"
+flask_sqlalchemy = "^2.4.1"
+mysql-connector-python = "^8.0.19"
+flask_migrate = "^2.5.3"
+pandas = "^1.0.3"
 
 [tool.poetry.dev-dependencies]
+ipdb = "^0.13.2"
 
 [build-system]
 requires = ["poetry>=0.12"]
