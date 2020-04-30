@@ -26,6 +26,7 @@ def sample_db(request):
     return request.param
 
 
+@pytest.mark.xfail
 def test_sample(sample_db):
     print(sample_db)
     assert sample_db is "pg"

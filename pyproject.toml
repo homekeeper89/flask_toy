@@ -10,6 +10,7 @@ flask = "^1.1.2"
 pytest = "^5.4.1"
 pytest-testmon = "^1.0.2"
 pytest-watch = "^4.2.0"
+faker = "^4.0.3"
 
 [tool.poetry.dev-dependencies]
 
