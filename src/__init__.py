@@ -13,6 +13,7 @@ def init_blueprint(app: Flask) -> None:
 def create_app(env: str = "dev") -> Flask:
     app = Flask(__name__)
     app.config.from_object(config[env])
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  # warning 뜨는 것
     db.init_app(app)
     init_blueprint(app)
     migrate.init_app(app, db)
