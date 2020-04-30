@@ -24,17 +24,3 @@ def test_parse_message():
     pattern = re.compile(r"\[\d[.]\d+")
     msg = "Threshold Crossed: 1 out of the last 1 datapoints [2.71186440678953 (10/04/20 08:09:00)] was less than the threshold (100.0) (minimum 1 datapoint for OK -> ALARM transition)."
     pattern.search(msg).group().replace("[", "")
-
-
-@pytest.mark.parametrize(
-    "a, b",
-    [
-        (1, {"Two Scoops of Django": "1.8"}),
-        (True, "Into the Brambles"),
-        ("Jason likes cookies", [1, 2, 3]),
-        ("PYTEST_PLUGIN", "plugin_template"),
-    ],
-    ids=["int and dict", "bool and str", "str and list", "CookiecutterTemplate and str",],
-)
-def test_foobar(a, b):
-    assert True
