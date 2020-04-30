@@ -26,7 +26,6 @@ def sample_db(request):
     return request.param
 
 
-@pytest.mark.skip(reason="이상하게 작동하는 테스트")
 def test_sample(sample_db):
     print(sample_db)
     assert sample_db is "pg"
