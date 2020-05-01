@@ -7,6 +7,42 @@ from unittest.mock import patch
 import json
 
 
+@pytest.mark.user
+def test_user_repo_get_user_list_should_all(session):
+    data_list = []
+    for _ in range(20):
+        fake = Faker()
+        data = {"email": fake.email(), "password": fake.name()}
+        data_list.append(User(**data))
+    session.add_all(data_list)
+    session.commit()
+
+    page = 1
+
+    res = UserRepository().get_all(page)
+
+    assert len(res.items) == 10
+
+
+@pytest.mark.user
+@patch("src.domain.user.repository.UserRepository.get_all")
+def test_user_usecase_get_user_list(mock_method, session):
+    data_list = []
+    for _ in range(20):
+        fake = Faker()
+        data = {"email": fake.email(), "password": fake.name()}
+        data_list.append(User(**data))
+    session.add_all(data_list)
+    session.commit()
+
+    res = session.query(User).order_by(User.id.desc()).paginate(1, 10)
+    mock_method.return_value = res
+    page = 1
+    res = UserUseCase().get_all(page)
+    assert res is not None
+
+
+@pytest.mark.user
 def test_user_repo_delete_with_id_should_success(session):
     data = {"email": "test", "password": "pwd"}
     data = User(**data)

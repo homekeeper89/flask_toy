@@ -24,3 +24,12 @@ class UserRepository:
             raise e
 
         return True
+
+    @staticmethod
+    def get_all(page: int) -> list:
+        try:
+            res = db.session.query(User).order_by(User.id.desc()).paginate(page, 10)
+
+        except Exception as e:
+            raise e
+        return res
