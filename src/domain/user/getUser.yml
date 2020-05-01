@@ -1,7 +1,7 @@
 유저 회원 가입을 진행한다.
 ---
 parameters:
-  - name: user-create
+  - name: page
     in: path
     type: int
     schema:
