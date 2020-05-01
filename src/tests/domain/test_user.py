@@ -7,7 +7,7 @@ from unittest.mock import patch
 import json
 
 
-def test_user_repo_delete(session):
+def test_user_repo_delete_with_id_should_success(session):
     data = {"email": "test", "password": "pwd"}
     data = User(**data)
     session.add(data)
