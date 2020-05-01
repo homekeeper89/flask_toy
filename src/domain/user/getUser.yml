@@ -2,9 +2,8 @@
 ---
 parameters:
   - name: user-create
-    in: body
-    type: string
-    required: true
+    in: path
+    type: int
     schema:
       $ref: "#/definitions/UserCreate"
 definitions:
@@ -13,9 +12,8 @@ definitions:
     properties:
       email:
         type: string
-        default: email@naver.com
       password:
         type: string
 responses:
   200:
-    description: Registering User is success
+    description: Get all user data

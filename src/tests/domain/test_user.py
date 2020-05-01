@@ -8,6 +8,13 @@ import json
 
 
 @pytest.mark.user
+@pytest.mark.skip(reason="테스트가 너무 오래걸림")
+def test_get_user_should_all(flask_client):
+    res = flask_client.get("/api/v1/user/page/1")
+    assert res.status_code == 200
+
+
+@pytest.mark.user
 def test_user_repo_get_user_list_should_all(session):
     data_list = []
     for _ in range(20):
