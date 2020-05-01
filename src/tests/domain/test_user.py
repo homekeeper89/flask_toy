@@ -3,10 +3,16 @@ from faker import Faker
 from src.domain.user.usecase import UserUseCase, validate_user_data
 from src.model.models import User
 from unittest.mock import patch
+import json
 
 
 def test_post_user_should_success(flask_client):
-    res = flask_client.post("/api/v1/user/")
+    fake = Faker()
+    data = {"email": fake.email(), "password": fake.name()}
+
+    res = flask_client.post(
+        "/api/v1/user/", data=json.dumps(data), headers={"Content-Type": "Application/json"}
+    )
     assert res.status_code == 200
 
 
@@ -38,8 +44,8 @@ def test_user_usecase_register_with_repo_should_create_user(session):
 
     UserUseCase().register(data)
 
-    res = session.query(User).first()
-    assert res.email == data["email"]
+    res = session.query(User).filter(User.email == data["email"])
+    assert res is not None
 
 
 @pytest.mark.parametrize("email, expected", [("wkdg@naver.com", True), ("kkk", False)])
