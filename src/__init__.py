@@ -1,6 +1,6 @@
 from flask import Flask
 from src.config import config
-from src.domain import api_main
+from src.domain import api_main, api_user
 from typing import Any, Dict, Optional
 from src.database import db
 from src.database import migrate
@@ -8,6 +8,7 @@ from src.database import migrate
 
 def init_blueprint(app: Flask) -> None:
     app.register_blueprint(api_main)
+    app.register_blueprint(api_user)
 
 
 def create_app(env: str = "dev") -> Flask:

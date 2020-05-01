@@ -1,6 +1,7 @@
 from src.database import db
 from src.model.models import User
 import pytest
+from faker import Faker
 
 
 def test_is_app_running(app):
@@ -8,7 +9,8 @@ def test_is_app_running(app):
 
 
 def test_is_session_work(session):
-    user = {"id": 1, "name": "helloWorld"}
+    fake = Faker()
+    user = {"email": fake.email(), "password": "helloWorld"}
     session.add(User(**user))
     session.commit()
 

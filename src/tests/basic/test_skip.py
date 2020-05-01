@@ -54,5 +54,6 @@ def hello_world(*args, **kwargs):
 # pytest test_skip.py --pdb --pdbcls=IPython.terminal.debugger:Pdb
 # > ipdb를 사용하는 것
 @pytest.mark.my_marker.with_args(hello_world)
+@pytest.mark.xfail(reason="with_args 테스트용")
 def test_with_args():
     assert 3 == 2
