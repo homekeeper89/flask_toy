@@ -50,6 +50,16 @@ def test_user_usecase_get_user_list(mock_method, session):
 
 
 @pytest.mark.user
+@patch("src.domain.user.repository.UserRepository.delete")
+def test_user_usecase_delete_user_with_id_should_success(mock_method, session):
+    mock_method.return_value = True
+
+    user_id = 1
+    res = UserUseCase().delete_user(user_id)
+    assert res is True
+
+
+@pytest.mark.user
 def test_user_repo_delete_with_id_should_success(session):
     data = {"email": "test", "password": "pwd"}
     data = User(**data)

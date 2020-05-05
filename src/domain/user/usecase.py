@@ -34,3 +34,10 @@ class UserUseCase:
             "page": {"page": res.page, "next_page": res.has_next, "total": res.total},
         }
         return response
+
+    @staticmethod
+    def delete_user(user_id: int) -> bool:
+
+        res = UserRepository().delete(user_id)
+
+        return res
