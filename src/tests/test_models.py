@@ -7,8 +7,12 @@ def test_is_app_running(app):
     assert app is not None
 
 
-def test_is_session_work(session):
-    user = {"id": 1, "name": "helloWorld"}
+@pytest.mark.parametrize('id', 'name',[
+    (1, 'hellp'),
+    (2, 'kko')
+])
+def test_is_session_work(session, id, name):
+    user = {"id": id, "name": name}
     session.add(User(**user))
     session.commit()
 
