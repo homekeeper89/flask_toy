@@ -7,7 +7,7 @@ def test_is_app_running(app):
     assert app is not None
 
 
-@pytest.mark.parametrize('id', 'name',[
+@pytest.mark.parametrize('id, name',[
     (1, 'hellp'),
     (2, 'kko')
 ])
