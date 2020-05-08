@@ -15,3 +15,6 @@ COPY . /
 EXPOSE 5000
 ENTRYPOINT ["python"]
 CMD ["main.py"]
+
+# $ docker build -t flask-application:latest .
+# $ docker run -d -p 5000:5000 flask-application
