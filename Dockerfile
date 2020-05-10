@@ -1,5 +1,4 @@
 FROM python:3.7.4-alpine
-MAINTAINER matthew "matthew@cupist.com"
 
 RUN apk add --update --no-cache --virtual build-deps gcc python3-dev musl-dev libc-dev linux-headers libxslt-dev libxml2-dev
 RUN apk add libffi-dev openssl-dev libpq postgresql-dev
