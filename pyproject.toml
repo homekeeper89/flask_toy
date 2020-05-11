@@ -12,6 +12,7 @@ pytest-testmon = "^1.0.2"
 pytest-watch = "^4.2.0"
 faker = "^4.0.3"
 flasgger = "^0.9.4"
+redis = "^3.5.1"
 
 [tool.poetry.dev-dependencies]
 
