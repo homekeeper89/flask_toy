@@ -1,6 +1,6 @@
 FROM python:3.7.0-alpine3.8
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 RUN apk add --update --no-cache --virtual build-deps gcc python3-dev musl-dev libc-dev linux-headers libxslt-dev libxml2-dev
 RUN apk add libffi-dev openssl-dev
