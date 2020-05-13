@@ -20,9 +20,9 @@ def main():
         work_queue.put(work)
 
     # version1
-    tasks = [(task, "One", work_queue), (task, "Two", work_queue)]
-    for task, name, queue in tasks:
-        task(name, queue)
+    # tasks = [(task, "One", work_queue), (task, "Two", work_queue)]
+    # for task, name, queue in tasks:
+    #     task(name, queue)
     # Task One running
     # Task One total: 15
     # Task One running
@@ -33,16 +33,17 @@ def main():
     # Task One total: 2
     # Task Two nothing to do
 
-    tasks = [task("One", work_queue), task("Two", work_queue)]
-    done = False
-    while not done:
-        for task in tasks:
-            try:
-                next(task)
-            except StopIteration:
-                tasks.remove(task)
-            if len(tasks) == 0:
-                done = True
+    # version2
+    # tasks = [task("One", work_queue), task("Two", work_queue)]
+    # done = False
+    # while not done:
+    #     for task in tasks:
+    #         try:
+    #             next(task)
+    #         except StopIteration:
+    #             tasks.remove(task)
+    #         if len(tasks) == 0:
+    #             done = True
     # Task One running
     # Task Two running
     # Task Two total: 10
