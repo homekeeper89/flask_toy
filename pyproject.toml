@@ -13,6 +13,8 @@ pytest-watch = "^4.2.0"
 faker = "^4.0.3"
 flasgger = "^0.9.4"
 codetiming = "^1.2.0"
+requests = "^2.23.0"
+aiohttp = "^3.6.2"
 
 [tool.poetry.dev-dependencies]
 
