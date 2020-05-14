@@ -31,6 +31,18 @@ version = "7.1.2"
 
 [[package]]
 category = "main"
+description = "A flexible, customizable timer for your Python code"
+name = "codetiming"
+optional = false
+python-versions = ">=3.6"
+version = "1.2.0"
+
+[package.extras]
+dev = ["black", "bump2version", "flake8", "flit", "isort", "mypy"]
+test = ["pytest", "pytest-cov", "tox"]
+
+[[package]]
+category = "main"
 description = "Cross-platform colored terminal text."
 name = "colorama"
 optional = false
@@ -384,7 +396,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "e51457085c748ecb8445f8af365c60e6f7ae5e1013461d13e3b38ad1deaad229"
+content-hash = "d461bc916364a842b8391e067e4deddee2184564c3bcd991695f1e9d136f6fa7"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -399,6 +411,10 @@ attrs = [
 click = [
     {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
     {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
+]
+codetiming = [
+    {file = "codetiming-1.2.0-py3-none-any.whl", hash = "sha256:9be79be7b109fbf85991ddd937208b011911dff8925e6259097a4f0f79f6a4ce"},
+    {file = "codetiming-1.2.0.tar.gz", hash = "sha256:bc0d19fedfc66c8f8ffd2245d2bd5ae88005ecff5f740a67c9cc776083db4a8e"},
 ]
 colorama = [
     {file = "colorama-0.4.3-py2.py3-none-any.whl", hash = "sha256:7d73d2a99753107a36ac6b455ee49046802e59d9d076ef8e47b61499fa29afff"},
