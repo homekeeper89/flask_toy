@@ -21,3 +21,23 @@ class UserUseCase:
             return False
 
         return True
+
+    @staticmethod
+    def get_all(page: int) -> list:
+
+        res = UserRepository.get_all(page)
+        data = []
+        for _, value in enumerate(res.items):
+            data.append(value.to_entity())
+        response = {
+            "data": data,
+            "page": {"page": res.page, "next_page": res.has_next, "total": res.total},
+        }
+        return response
+
+    @staticmethod
+    def delete_user(user_id: int) -> bool:
+
+        res = UserRepository().delete(user_id)
+
+        return res

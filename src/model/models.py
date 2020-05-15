@@ -8,6 +8,9 @@ class User(db.Model):
     password = db.Column(db.String(128))
     todos = db.relationship("Todos", backref="user", lazy=True)
 
+    def to_entity(self):
+        return {"id": self.id, "email": self.email}
+
 
 class Todos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
