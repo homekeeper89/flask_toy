@@ -4,8 +4,12 @@ from sqlalchemy.sql import func
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128))
+    email = db.Column(db.String(128))
+    password = db.Column(db.String(128))
     todos = db.relationship("Todos", backref="user", lazy=True)
+
+    def to_entity(self):
+        return {"id": self.id, "email": self.email}
 
 
 class Todos(db.Model):
