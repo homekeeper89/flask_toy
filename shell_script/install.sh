@@ -18,4 +18,10 @@ str2=abcd0123
 echo "${str1:1}"
 echo "${str2:4}"
 
-echo "${version:5}"
+ver=$(python -c"import sys; print(sys.version_info.major)")
+
+echo ">>>, ${ver}"
+
+if ((${ver} < 3)); then
+    echo "python version is low"
+fi
