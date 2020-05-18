@@ -40,6 +40,7 @@ class TestingConfig(Config):
         os.environ.get("DEV_DATABASE_URL")
         or "mysql+mysqlconnector://root:root@localhost:3306/local_test"
     )
+    KAKAO_API_KEY = "b53870ce18f5edf1a99e3eae379e0abe"
 
 
 config = {"test": TestingConfig, "dev": DevelopmentConfig, "prod": ProductionConfig}
