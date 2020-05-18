@@ -14,9 +14,6 @@ class KakaoApiHandler:
         kwargs = dict(
             method="get", url=api_url, headers={"Authorization": "KakaoAK {}".format(self.api_key)},
         )
-        import ipdb
-
-        ipdb.set_trace()
         resp = requests.request(**kwargs)
         return resp
 
