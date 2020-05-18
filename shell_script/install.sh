@@ -24,4 +24,5 @@ echo ">>>, ${ver}"
 
 if ((${ver} < 3)); then
     echo "python version is low"
+    echo "starting changing python --version to 3"
 fi
