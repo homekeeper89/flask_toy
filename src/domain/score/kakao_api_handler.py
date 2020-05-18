@@ -9,11 +9,14 @@ class KakaoApiHandler:
         self.api_key = api_key
 
     def category_search(self):
-
-        api_url = f"{self.KAKAO_HOST}{self.CATEGORY_SEARCH_API}"
+        y, x = "37.370773", "126.948141"
+        api_url = f"{self.KAKAO_HOST}{self.CATEGORY_SEARCH_API}&x={x}&y={y}"
         kwargs = dict(
             method="get", url=api_url, headers={"Authorization": "KakaoAK {}".format(self.api_key)},
         )
+        import ipdb
+
+        ipdb.set_trace()
         resp = requests.request(**kwargs)
         return resp
 
