@@ -8,12 +8,21 @@ class KakaoApiHandler:
     def __init__(self, api_key: str):
         self.api_key = api_key
 
-    def category_search(self):
-        y, x = "37.370773", "126.948141"
-        api_url = f"{self.KAKAO_HOST}{self.CATEGORY_SEARCH_API}&x={x}&y={y}"
+    def make_category_api(self, code: str, radius: int, x_point: str, y_point: str) -> str:
+        return (
+            self.KAKAO_HOST
+            + "/"
+            + f"/v2/local/search/category.json?category_group_code={code}&radius={radius}&x={x_point}&y={y_point}"
+        )
+
+    def send_api(self, code, data):
+        radius, y, x = data.get("radius"), data.get("y"), data.get("x")
+        api_url = self.make_category_api(code, radius, x, y)
+
         kwargs = dict(
             method="get", url=api_url, headers={"Authorization": "KakaoAK {}".format(self.api_key)},
         )
+
         resp = requests.request(**kwargs)
         return resp
 
@@ -23,4 +32,5 @@ class KakaoApiHandler:
 
     def get_category_data(self, request: dict) -> dict:
         data = self.parse_request(request)
-        return data
+        res = self.send_api(data["category_group"][0], data)
+        return res
