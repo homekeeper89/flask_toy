@@ -17,3 +17,10 @@ class KakaoApiHandler:
         resp = requests.request(**kwargs)
         return resp
 
+    def parse_request(self, request: dict) -> dict:
+        data = request["data"]
+        return data
+
+    def get_category_data(self, request: dict) -> dict:
+        data = self.parse_request(request)
+        return data
