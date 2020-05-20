@@ -44,3 +44,8 @@ def test_make_category_api(api_handler, make_request):
     res = api_handler.make_category_api(code, radius, x, y)
     url = f"/v2/local/search/category.json?category_group_code={code}&radius={radius}&x={x}&y={y}"
     assert res == api_handler.KAKAO_HOST + "/" + url
+
+
+def test_response_parser(api_handler):
+    res = api_handler.parse_response()
+    assert res is not None
