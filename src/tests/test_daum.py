@@ -33,9 +33,6 @@ def test_parsing_request(api_handler, make_request):
 def test_send_request(api_handler, make_request):
     assert os.getenv("score_kakao") == api_handler.api_key
     res = api_handler.get_category_data(make_request)
-    import ipdb
-
-    ipdb.set_trace()
     assert res.status_code == 200
 
 
@@ -49,8 +46,8 @@ def test_make_category_api(api_handler, make_request):
     assert res == api_handler.KAKAO_HOST + "/" + url
 
 
-def test_response_parser(api_handler):
+def test_response_parser(api_handler, category_search_response):
     # data 에는 documents, meta 이렇게 있음
     # meta에는 total_count 정도만 쓰면 될듯..
-    res = api_handler.parse_response()
-    assert res is not None
+    res = api_handler.parse_response(category_search_response)
+    assert category_search_response.json() == res

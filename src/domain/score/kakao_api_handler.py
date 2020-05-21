@@ -30,7 +30,12 @@ class KakaoApiHandler:
         data = request["data"]
         return data
 
+    def parse_response(self, response):
+        data = response.json()
+        return data
+
     def get_category_data(self, request: dict) -> dict:
         data = self.parse_request(request)
-        res = self.send_api(data["category_group"][0], data)
+        for category in data["category_group"]:
+            res = self.send_api(category, data)
         return res
