@@ -1,6 +1,7 @@
 from src.domain.score.kakao_api_handler import KakaoApiHandler
 import os
 import pytest
+import time
 
 
 @pytest.fixture
@@ -41,7 +42,7 @@ def test_make_category_api(api_handler, make_request):
     radius = make_request["data"]["radius"]
     x = make_request["data"]["x"]
     y = make_request["data"]["y"]
-    res = api_handler.make_category_api(code, radius, x, y)
+    res = api_handler.make_category_api(code, make_request["data"])
     url = f"/v2/local/search/category.json?category_group_code={code}&radius={radius}&x={x}&y={y}"
     assert res == api_handler.KAKAO_HOST + "/" + url
 
@@ -51,3 +52,15 @@ def test_response_parser(api_handler, category_search_response):
     # meta에는 total_count 정도만 쓰면 될듯..
     res = api_handler.parse_response(category_search_response)
     assert category_search_response.json() == res
+
+
+def test_send_api_time(api_handler, make_request):
+    # 19.23s 걸리네
+    res = api_handler.get_category_data(make_request)
+    assert res.status_code == 200
+
+
+def test_async_request(api_handler, make_request):
+    # 0.14초 실화냐
+    res = api_handler.get_category_data_async(make_request)
+    assert res is True
