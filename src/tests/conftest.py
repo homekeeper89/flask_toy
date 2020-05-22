@@ -53,6 +53,21 @@ def session(app, db, request):
 
 
 @pytest.fixture
+def category_search_request():
+    data = {
+        "user_id": "some_user_id",
+        "some_info": "some_info",
+        "data": {
+            "category_group": ["MT1", "CS2", "PS3", "SC4"],
+            "x": "126.948141",
+            "y": "37.370773",
+            "radius": 20000,
+        },
+    }
+    return data
+
+
+@pytest.fixture
 def category_search_response():
 
     rand_num = random.randint(50, 100)
