@@ -53,6 +53,7 @@ def test_async_request(api_handler, category_search_request):
     assert res is True
 
 
+@pytest.mark.skip(reason="계산 로직을 만들자")
 def test_make_api_url_list(api_handler, category_search_request):
     parsed_data = api_handler.parse_request(category_search_request)
     res = api_handler.make_api_url_list(parsed_data)
