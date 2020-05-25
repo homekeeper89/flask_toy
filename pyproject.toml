@@ -6,12 +6,17 @@ authors = ["matthew <matthew@cupist.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-flask = "^1.1.2"
-pytest = "^5.4.1"
-pytest-testmon = "^1.0.2"
-pytest-watch = "^4.2.0"
-faker = "^4.0.3"
+flask = "^1.1.1"
 flasgger = "^0.9.4"
+flask_sqlalchemy = "^2.4.1"
+mysql-connector-python = "^8.0.19"
+flask_migrate = "^2.5.3"
+pandas = "^1.0.3"
+pytest = "^5.4.1"
+allure-pytest = "^2.8.13"
+pytest-xdist = "^1.32.0"
+pytest-cov = "^2.8.1"
+pysqlite3 = "^0.4.2"
 
 [tool.poetry.dev-dependencies]
 
