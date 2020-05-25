@@ -6,12 +6,15 @@ import aiohttp
 
 class KakaoApiHandler:
     KAKAO_HOST = "https://dapi.kakao.com"
-    CATEGORY_SEARCH_API = "/v2/local/search/category.json?category_group_code=PM9&radius=20000"
 
     def __init__(self, api_key: str):
         self.api_key = api_key
         self.headers = {"Authorization": "KakaoAK {}".format(self.api_key)}
         self.values = []
+        self._radius = 2000  # 2km
+
+    def set_radius(self, radius: int) -> None:
+        self._radius = int(radius)
 
     def make_category_api(self, code: str, data_info: dict) -> str:
         radius, y_point, x_point = data_info.get("radius"), data_info.get("y"), data_info.get("x")
@@ -49,6 +52,7 @@ class KakaoApiHandler:
 
     def get_category_data_async(self, request):
         parsed_data = self.parse_request(request)
+        self.set_radius(parsed_data.get("radius", 2000))
         api_data = self.make_api_url_list(parsed_data)
         tasks = [self.get_api(api["category"], api["url"]) for api in api_data]
         asyncio.run(asyncio.wait(tasks))
@@ -65,3 +69,6 @@ class KakaoApiHandler:
             for category in parsed_data["category_group"]
         ]
         return url_list
+
+    def make_score(self) -> list:
+        values = [ value['score'] = value['total_count'] / self._radius for value in self.values]

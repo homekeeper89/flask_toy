@@ -53,7 +53,6 @@ def test_async_request(api_handler, category_search_request):
     assert res is True
 
 
-@pytest.mark.skip(reason="계산 로직을 만들자")
 def test_make_api_url_list(api_handler, category_search_request):
     parsed_data = api_handler.parse_request(category_search_request)
     res = api_handler.make_api_url_list(parsed_data)
@@ -61,4 +60,10 @@ def test_make_api_url_list(api_handler, category_search_request):
     assert len(list(map(lambda x: x["category"], res))) == len(
         category_search_request["data"]["category_group"]
     )
+
+
+@pytest.mark.xfail(reason="전체 가져오는 갯수까지 구현해야함")
+def test_sum_url_list(api_handler, category_search_request):
+    res = api_handler.get_category_data_async(category_search_request)
+    assert res is not None
 
