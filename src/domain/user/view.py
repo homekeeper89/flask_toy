@@ -13,3 +13,10 @@ def register():
     res = "success" if res else "fail"
     return jsonify({"data": res})
 
+
+@api_user.route("/page/<int:page>", methods=["GET"])
+@swag_from("getUser.yml")
+def get_user(page):
+    res = UserUseCase.get_all(page)
+
+    return jsonify(res)
