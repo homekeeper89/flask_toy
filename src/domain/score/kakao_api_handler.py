@@ -70,5 +70,6 @@ class KakaoApiHandler:
         ]
         return url_list
 
-    def make_score(self) -> list:
-        values = [ value['score'] = value['total_count'] / self._radius for value in self.values]
+    def make_score(self) -> None:
+        [value.update(score=(value["total_count"] / self._radius)) for value in self.values]
+

@@ -62,8 +62,8 @@ def test_make_api_url_list(api_handler, category_search_request):
     )
 
 
-@pytest.mark.xfail(reason="전체 가져오는 갯수까지 구현해야함")
 def test_sum_url_list(api_handler, category_search_request):
-    res = api_handler.get_category_data_async(category_search_request)
-    assert res is not None
+    api_handler.get_category_data_async(category_search_request)
+    api_handler.make_score()
+    assert "score" in api_handler.values[0].keys()
 
