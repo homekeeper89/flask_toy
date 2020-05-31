@@ -1,4 +1,8 @@
 import pytest
+import random
+import json
+from unittest.mock import Mock
+from requests.models import Response
 from src import create_app
 from src.database import db as _db
 
@@ -46,3 +50,29 @@ def session(app, db, request):
     transaction.rollback()
     connection.close()
     session.remove()
+
+
+@pytest.fixture
+def category_search_request():
+    data = {
+        "user_id": "some_user_id",
+        "some_info": "some_info",
+        "data": {
+            "category_group": ["MT1", "CS2", "PS3", "SC4"],
+            "x": "126.948141",
+            "y": "37.370773",
+            "radius": 20000,
+        },
+    }
+    return data
+
+
+@pytest.fixture
+def category_search_response():
+
+    rand_num = random.randint(50, 100)
+    res = Mock(spec=Response)
+    res.json.return_value = {"meta": {"total_count": rand_num}}
+
+    # {"document": {}, "meta": {"total_count": random.randint(50, 100)}}
+    return res
