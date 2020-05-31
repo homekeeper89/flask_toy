@@ -17,6 +17,7 @@ allure-pytest = "^2.8.13"
 pytest-xdist = "^1.32.0"
 pytest-cov = "^2.8.1"
 pysqlite3 = "^0.4.2"
+redis = "^3.5.1"
 
 [tool.poetry.dev-dependencies]
 
