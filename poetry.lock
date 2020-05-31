@@ -37,6 +37,18 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 version = "7.1.1"
 
 [[package]]
+category = "dev"
+description = "Decorators for Humans"
+marker = "python_version >= \"3.4\""
+name = "decorator"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
+version = "5.1"
+
+[package.extras]
+toml = ["toml"]
+
+[[package]]
 category = "main"
 description = "Updated configparser from Python 3.7 for Python 2.6+."
 marker = "python_version < \"3\""
@@ -57,6 +69,20 @@ name = "contextlib2"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "0.6.0.post1"
+
+[[package]]
+category = "main"
+description = "execnet: rapid multi-Python deployment"
+name = "execnet"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.7.1"
+
+[package.dependencies]
+apipkg = ">=1.4"
+
+[package.extras]
+testing = ["pre-commit"]
 
 [[package]]
 category = "main"
@@ -258,6 +284,14 @@ six = "*"
 
 [[package]]
 category = "main"
+description = "DB-API 2.0 interface for Sqlite 3.x"
+name = "pysqlite3"
+optional = false
+python-versions = "*"
+version = "0.4.2"
+
+[[package]]
+category = "main"
 description = "pytest: simple powerful testing with Python"
 name = "pytest"
 optional = false
@@ -284,8 +318,51 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xm
 
 [[package]]
 category = "main"
-description = "selects tests affected by changed files and methods"
-name = "pytest-testmon"
+description = "Pytest plugin for measuring coverage."
+name = "pytest-cov"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "2.8.1"
+
+[package.dependencies]
+coverage = ">=4.4"
+pytest = ">=3.6"
+
+[package.extras]
+testing = ["fields", "hunter", "process-tests (2.0.2)", "six", "virtualenv"]
+
+[[package]]
+category = "main"
+description = "run tests in isolated forked subprocesses"
+name = "pytest-forked"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.1.3"
+
+[package.dependencies]
+pytest = ">=3.1.0"
+
+[[package]]
+category = "main"
+description = "pytest xdist plugin for distributed testing and loop-on-failing modes"
+name = "pytest-xdist"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "1.32.0"
+
+[package.dependencies]
+execnet = ">=1.1"
+pytest = ">=4.4.0"
+pytest-forked = "*"
+six = "*"
+
+[package.extras]
+testing = ["filelock"]
+
+[[package]]
+category = "main"
+description = "Extensions to the standard Python datetime module"
+name = "python-dateutil"
 optional = false
 python-versions = ">=3.6"
 version = "1.0.2"
@@ -517,8 +594,9 @@ coverage = [
     {file = "coverage-5.1-cp39-cp39-win_amd64.whl", hash = "sha256:bb28a7245de68bf29f6fb199545d072d1036a1917dca17a1e75bbb919e14ee8e"},
     {file = "coverage-5.1.tar.gz", hash = "sha256:f90bfc4ad18450c80b024036eaf91e4a246ae287701aaa88eaebebf150868052"},
 ]
-docopt = [
-    {file = "docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"},
+decorator = [
+    {file = "decorator-4.4.2-py2.py3-none-any.whl", hash = "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760"},
+    {file = "decorator-4.4.2.tar.gz", hash = "sha256:e3a62f0520172440ca0dcc823749319382e377f37f140a0b99ef45fecb84bfe7"},
 ]
 faker = [
     {file = "Faker-4.1.0-py3-none-any.whl", hash = "sha256:34ae397aef03a0a17910452f1e8430d57fa59e2d67b20e9b637218e8f7dd22b3"},
@@ -636,16 +714,24 @@ pyparsing = [
 pyrsistent = [
     {file = "pyrsistent-0.16.0.tar.gz", hash = "sha256:28669905fe725965daa16184933676547c5bb40a5153055a8dee2a4bd7933ad3"},
 ]
+pysqlite3 = [
+    {file = "pysqlite3-0.4.2.tar.gz", hash = "sha256:71935c305aadd1ec2e69ed772624f3523afb50a6d0a24a383d76c3752aac1afc"},
+]
 pytest = [
     {file = "pytest-5.4.2-py3-none-any.whl", hash = "sha256:95c710d0a72d91c13fae35dce195633c929c3792f54125919847fdcdf7caa0d3"},
     {file = "pytest-5.4.2.tar.gz", hash = "sha256:eb2b5e935f6a019317e455b6da83dd8650ac9ffd2ee73a7b657a30873d67a698"},
 ]
-pytest-testmon = [
-    {file = "pytest-testmon-1.0.2.tar.gz", hash = "sha256:fdb016d953036051d1ef0e36569b7168cefa4914014789a65a4ffefc87f85ac5"},
-    {file = "pytest_testmon-1.0.2-py3-none-any.whl", hash = "sha256:e79852203894bbd5a6adb7e0541316c0a3a84322e9766f746ed6b8b62f9897d9"},
+pytest-cov = [
+    {file = "pytest-cov-2.8.1.tar.gz", hash = "sha256:cc6742d8bac45070217169f5f72ceee1e0e55b0221f54bcf24845972d3a47f2b"},
+    {file = "pytest_cov-2.8.1-py2.py3-none-any.whl", hash = "sha256:cdbdef4f870408ebdbfeb44e63e07eb18bb4619fae852f6e760645fa36172626"},
 ]
-pytest-watch = [
-    {file = "pytest-watch-4.2.0.tar.gz", hash = "sha256:06136f03d5b361718b8d0d234042f7b2f203910d8568f63df2f866b547b3d4b9"},
+pytest-forked = [
+    {file = "pytest-forked-1.1.3.tar.gz", hash = "sha256:1805699ed9c9e60cb7a8179b8d4fa2b8898098e82d229b0825d8095f0f261100"},
+    {file = "pytest_forked-1.1.3-py2.py3-none-any.whl", hash = "sha256:1ae25dba8ee2e56fb47311c9638f9e58552691da87e82d25b0ce0e4bf52b7d87"},
+]
+pytest-xdist = [
+    {file = "pytest-xdist-1.32.0.tar.gz", hash = "sha256:1d4166dcac69adb38eeaedb88c8fada8588348258a3492ab49ba9161f2971129"},
+    {file = "pytest_xdist-1.32.0-py2.py3-none-any.whl", hash = "sha256:ba5ec9fde3410bd9a116ff7e4f26c92e02fa3d27975ef3ad03f330b3d4b54e91"},
 ]
 python-dateutil = [
     {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
@@ -672,9 +758,26 @@ six = [
     {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
     {file = "six-1.14.0.tar.gz", hash = "sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"},
 ]
-text-unidecode = [
-    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
-    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
+sqlalchemy = [
+    {file = "SQLAlchemy-1.3.16-cp27-cp27m-macosx_10_13_x86_64.whl", hash = "sha256:8d8c21e9d4efef01351bf28513648ceb988031be4159745a7ad1b3e28c8ff68a"},
+    {file = "SQLAlchemy-1.3.16-cp27-cp27m-win32.whl", hash = "sha256:083e383a1dca8384d0ea6378bd182d83c600ed4ff4ec8247d3b2442cf70db1ad"},
+    {file = "SQLAlchemy-1.3.16-cp27-cp27m-win_amd64.whl", hash = "sha256:128f6179325f7597a46403dde0bf148478f868df44841348dfc8d158e00db1f9"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-macosx_10_13_x86_64.whl", hash = "sha256:6056b671aeda3fc451382e52ab8a753c0d5f66ef2a5ccc8fa5ba7abd20988b4d"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:7025c639ce7e170db845e94006cf5f404e243e6fc00d6c86fa19e8ad8d411880"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-manylinux2010_x86_64.whl", hash = "sha256:e18752cecaef61031252ca72031d4d6247b3212ebb84748fc5d1a0d2029c23ea"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-win32.whl", hash = "sha256:0a690a6486658d03cc6a73536d46e796b6570ac1f8a7ec133f9e28c448b69828"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-win_amd64.whl", hash = "sha256:d00b393f05dbd4ecd65c989b7f5a81110eae4baea7a6a4cdd94c20a908d1456e"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-macosx_10_13_x86_64.whl", hash = "sha256:114b6ace30001f056e944cebd46daef38fdb41ebb98f5e5940241a03ed6cad43"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:13d48cd8b925b6893a4e59b2dfb3e59a5204fd8c98289aad353af78bd214db49"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-manylinux2010_x86_64.whl", hash = "sha256:211a1ce7e825f7142121144bac76f53ac28b12172716a710f4bf3eab477e730b"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-win32.whl", hash = "sha256:68d78cf4a9dfade2e6cf57c4be19f7b82ed66e67dacf93b32bb390c9bed12749"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-win_amd64.whl", hash = "sha256:2dc57ee80b76813759cccd1a7affedf9c4dbe5b065a91fb6092c9d8151d66078"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-macosx_10_13_x86_64.whl", hash = "sha256:43078c7ec0457387c79b8d52fff90a7ad352ca4c7aa841c366238c3e2cf52fdf"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:bbb545da054e6297242a1bb1ba88e7a8ffb679f518258d66798ec712b82e4e07"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:5b1bf3c2c2dca738235ce08079783ef04f1a7fc5b21cf24adaae77f2da4e73c3"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-win32.whl", hash = "sha256:3e625e283eecc15aee5b1ef77203bfb542563fa4a9aa622c7643c7b55438ff49"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-win_amd64.whl", hash = "sha256:7d98e0785c4cd7ae30b4a451416db71f5724a1839025544b4edbd92e00b91f0f"},
+    {file = "SQLAlchemy-1.3.16.tar.gz", hash = "sha256:7224e126c00b8178dfd227bc337ba5e754b197a3867d33b9f30dc0208f773d70"},
 ]
 urllib3 = [
     {file = "urllib3-1.25.9-py2.py3-none-any.whl", hash = "sha256:88206b0eb87e6d677d424843ac5209e3fb9d0190d0ee169599165ec25e9d9115"},
