@@ -17,6 +17,9 @@ allure-pytest = "^2.8.13"
 pytest-xdist = "^1.32.0"
 pytest-cov = "^2.8.1"
 pysqlite3 = "^0.4.2"
+Flask-API = "^2.0"
+flask-jwt-extended = "^3.24.1"
+boto3 = "^1.13.19"
 
 [tool.poetry.dev-dependencies]
 
