@@ -31,6 +31,10 @@ def error_decorator(f):
 def ping():
     return jsonify({'code':200, 'msg':'success'}), status.HTTP_200_OK
 
+@app.route("/test")
+def kakao_api():
+    return jsonify({'code':200, 'msg':'daum'}), status.HTTP_200_OK
+
 @app.route('/block/<last>', methods=['GET'])
 @jwt_required
 @error_decorator
