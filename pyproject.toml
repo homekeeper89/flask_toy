@@ -20,6 +20,7 @@ pysqlite3 = "^0.4.2"
 Flask-API = "^2.0"
 flask-jwt-extended = "^3.24.1"
 boto3 = "^1.13.19"
+zappa = "^0.51.0"
 
 [tool.poetry.dev-dependencies]
 
