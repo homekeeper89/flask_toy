@@ -54,7 +54,8 @@ class KakaoApiHandler:
         return resp
 
     def parse_request(self, request: dict) -> dict:
-        data = request["data"]
+        data = request.json()
+        data = data["data"]
         return data
 
     def get_category_data(self, request: dict) -> dict:
