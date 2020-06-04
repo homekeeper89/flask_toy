@@ -8,7 +8,6 @@ from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, 
 from functools import wraps
 import datetime
 import requests
-
 import asyncio
 import aiohttp
 
