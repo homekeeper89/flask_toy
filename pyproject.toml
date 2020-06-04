@@ -17,10 +17,14 @@ allure-pytest = "^2.8.13"
 pytest-xdist = "^1.32.0"
 pytest-cov = "^2.8.1"
 pysqlite3 = "^0.4.2"
+<<<<<<< HEAD
 Flask-API = "^2.0"
 flask-jwt-extended = "^3.24.1"
 boto3 = "^1.13.19"
 zappa = "^0.51.0"
+=======
+redis = "^3.5.1"
+>>>>>>> develop
 
 [tool.poetry.dev-dependencies]
 
