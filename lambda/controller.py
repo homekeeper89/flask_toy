@@ -52,7 +52,7 @@ class KakaoApiHandler:
         resp = requests.request(**kwargs)
         return resp
 
-    def parse_request(self, request: dict) -> dict:
+    def parse_request(self, request: request) -> dict:
         data = request.json()
         data = data["data"]
         return data
