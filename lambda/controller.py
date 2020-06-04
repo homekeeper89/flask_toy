@@ -108,7 +108,7 @@ def ping():
     return jsonify({'code':200, 'msg':'success'}), status.HTTP_200_OK
 
 @app.route("/api/v1/score", methods=['POST'])
-def kakao_api(category_search_request):
+def kakao_api():
     handler = KakaoApiHandler(os.getenv("score_kakao", "c478e9ae026d774a5b5268a115e1e379"))
-    res = handler.get_category_data_async(category_search_request)
+    res = handler.get_category_data_async(request)
     return jsonify({'code':200, 'msg':'daum'}), status.HTTP_200_OK
