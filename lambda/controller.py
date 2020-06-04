@@ -36,11 +36,7 @@ def kakao_api():
     return jsonify({'code':200, 'msg':'daum'}), status.HTTP_200_OK
 
 @app.route('/block/<last>', methods=['GET'])
-@jwt_required
 @error_decorator
 def get_blocked_sites(last):
     account = extract_account(request)
     return jsonify({'code':200, 'msg':'SUCCESS', 'clean_news':result['clean_news'], 'last':result['last'] }), status.HTTP_200_OK
-
-def extract_account(payload):
-    return get_jwt_identity().lower()
