@@ -53,7 +53,7 @@ class KakaoApiHandler:
         return resp
 
     def parse_request(self, request: request) -> dict:
-        data = request.json()
+        data = request.json
         data = data["data"]
         return data
 
@@ -109,6 +109,7 @@ def ping():
 
 @app.route("/api/v1/score", methods=['POST'])
 def kakao_api():
-    handler = KakaoApiHandler(os.getenv("score_kakao", "c478e9ae026d774a5b5268a115e1e379"))
+    handler = KakaoApiHandler(os.getenv("score_kakao"))
     res = handler.get_category_data_async(request)
-    return jsonify({'code':200, 'msg':'daum'}), status.HTTP_200_OK
+    handler.make_score()
+    return jsonify({'code':200, 'data':handler.values}), status.HTTP_200_OK
