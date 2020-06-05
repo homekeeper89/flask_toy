@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  test_app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-dev
+      args:
+        buildno: 1
+        gitcommithash: cdc3b19
