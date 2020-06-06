@@ -3,8 +3,7 @@ version: "3"
 services:
   test_app:
     build:
-      context: .
-      dockerfile: ./docker/Dockerfile-dev
-      args:
-        buildno: 1
-        gitcommithash: cdc3b19
+      context: ./docker
+      dockerfile: Dockerfile-dev
+      args: buildno:1
+        gitcommithash:cdc3b19
