@@ -109,7 +109,7 @@ def ping():
 
 @app.route("/api/v1/score", methods=['POST'])
 def kakao_api():
-    handler = KakaoApiHandler(os.getenv("score_kakao"))
+    handler = KakaoApiHandler(os.getenv("score_kakao", "c478e9ae026d774a5b5268a115e1e379"))
     res = handler.get_category_data_async(request)
     handler.make_score()
     return jsonify({'code':200, 'data':handler.values}), status.HTTP_200_OK
