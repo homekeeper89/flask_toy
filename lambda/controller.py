@@ -1,8 +1,25 @@
-import requests
+import traceback
+import os
 
+from flask import request, url_for, jsonify
+from flask_api import FlaskAPI, status, exceptions
+from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, create_refresh_token, get_jwt_identity, jwt_refresh_token_required )
+
+from functools import wraps
+import datetime
+import requests
 import asyncio
 import aiohttp
 
+
+app = FlaskAPI(__name__)
+
+app.config['JWT_SECRET_KEY'] = 'super-secret'
+
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=10)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=15)
+
+jwt = JWTManager(app)
 
 class KakaoApiHandler:
     KAKAO_HOST = "https://dapi.kakao.com"
@@ -35,8 +52,8 @@ class KakaoApiHandler:
         resp = requests.request(**kwargs)
         return resp
 
-    def parse_request(self, request: dict) -> dict:
-        data = request.json()
+    def parse_request(self, request: request) -> dict:
+        data = request.json
         data = data["data"]
         return data
 
@@ -74,3 +91,25 @@ class KakaoApiHandler:
     def make_score(self) -> None:
         [value.update(score=(value["total_count"] / self._radius)) for value in self.values]
 
+
+
+def error_decorator(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except Exception as ex:
+            traceback.print_exc()
+            return jsonify({'code':500, 'msg':'Internal Error'}), status.HTTP_500_INTERNAL_SERVER_ERROR
+        return decorated_function
+
+@app.route('/', methods=['GET'])
+def ping():
+    return jsonify({'code':200, 'msg':'success'}), status.HTTP_200_OK
+
+@app.route("/api/v1/score", methods=['POST'])
+def kakao_api():
+    handler = KakaoApiHandler(os.getenv("score_kakao", "c478e9ae026d774a5b5268a115e1e379"))
+    res = handler.get_category_data_async(request)
+    handler.make_score()
+    return jsonify({'code':200, 'data':handler.values}), status.HTTP_200_OK
