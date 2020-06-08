@@ -8,4 +8,5 @@ services: # compose할 서비스들
             args: #docker 빌드시 환경변수 처럼 줄 수 있음
                 arg_one:1 # Dockerfile에서 $buildno로 사용가능
                 arg_two:3619 #Dockerfile에서 $gitcommithash로 사용가능
+        volumes: # 내 컴퓨터와 가상(도커) 와 연결
         
