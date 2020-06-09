@@ -1,12 +1,13 @@
 version: "3"
 
 services:
-  my_docker_app:
+  flask_web:
     build:
-      context: ./docker
-      dockerfile: Dockerfile-dev
+      context: .
+      dockerfile: ./docker/Dockerfile-dev
       args:
-        buildno: 1
-        gitcommithash: cdc3b19
-    volumes:
-      - "./my_secret:/src"
+        runfile: app.py
+  my_redis:
+    image: redis:4.0.11-alpine
+  my_sql:
+    image: mysql:5.6
