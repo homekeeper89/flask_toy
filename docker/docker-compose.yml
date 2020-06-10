@@ -18,6 +18,5 @@ services:
     image: mysql:5.6
     container_name: sql_container
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      - MYSQL_USER=matthew
+      - MYSQL_USER=homekeeper
       - MYSQL_PASSWORD=dev
