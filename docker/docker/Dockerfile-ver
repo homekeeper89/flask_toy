@@ -1,16 +1,17 @@
 FROM python:3.8-slim
 
-RUN pip install poetry
+ARG runfile
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock .
+RUN pip install poetry
 
-RUN cd /tmp && poetry install --no-root
+COPY pyproject.toml poetry.lock /app/
 
-# Copy in everything else:
-COPY . .
-
+RUN poetry config virtualenvs.create false
 RUN poetry install
 
+COPY . .
+
+ENV FLASK_APP=$runfile
 CMD flask run --host=0.0.0.0

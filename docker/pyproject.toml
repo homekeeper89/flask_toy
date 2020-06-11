@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "docker"
+name = "app"
 version = "0.1.0"
 description = ""
 authors = ["matthew <matthew@cupist.com>"]
