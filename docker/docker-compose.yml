@@ -4,7 +4,7 @@ services:
   flask_web:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile-dev
+      dockerfile: ./docker/Dockerfile-ver
       args:
         runfile: app.py
     ports:
