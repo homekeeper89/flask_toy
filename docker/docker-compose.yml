@@ -19,7 +19,7 @@ services:
   my_sql:
     image: mysql:5.7
     restart: always
-    container_name: mysql_5.7
+    container_name: mysql_5.7_container
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=user
@@ -29,3 +29,9 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     ports:
       - 5678:3306
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
