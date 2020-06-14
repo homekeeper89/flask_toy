@@ -1,11 +1,12 @@
-VERSION: "3.0"
+version: "3.0"
 
 services:
   my_app:
     build:
       context: .
       dockerfile: ./app_docker/Dockerfile
-      args: main.py
+      args:
+        runfile: main.py
     ports:
       - 5000:5000
   my_redis:
@@ -15,6 +16,14 @@ services:
       - 6379:6379
   my_sql:
     image: mysql:5.7
-    container_name: my_sql_container
+    restart: always
+    container_name: mysql_5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=dev
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     ports:
-      - 5194:3306
+      - 5678:3306
