@@ -1,0 +1,20 @@
+VERSION: "3.0"
+
+services:
+  my_app:
+    build:
+      context: .
+      dockerfile: ./app_docker/Dockerfile
+      args: main.py
+    ports:
+      - 5000:5000
+  my_redis:
+    image: redis:4.0.11-alpine
+    container_name: my_redis_container
+    ports:
+      - 6379:6379
+  my_sql:
+    image: mysql:5.7
+    container_name: my_sql_container
+    ports:
+      - 5194:3306
