@@ -9,6 +9,13 @@ services:
         runfile: main.py
     ports:
       - 5000:5000
+    entrypoint:
+      - flask
+      - db
+      - upgrade
+    depends_on:
+      - my_sql
+
   my_redis:
     image: redis:4.0.11-alpine
     container_name: my_redis_container
@@ -34,3 +41,5 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+    expose:
+      - 5678
