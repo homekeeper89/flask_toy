@@ -7,12 +7,10 @@ services:
       dockerfile: ./app_docker/Dockerfile
       args:
         runfile: main.py
+    links:
+      - my_sql
     ports:
       - 5000:5000
-    entrypoint:
-      - flask
-      - db
-      - upgrade
     depends_on:
       - my_sql
 
@@ -21,6 +19,7 @@ services:
     container_name: my_redis_container
     ports:
       - 6379:6379
+
   my_sql:
     image: mysql:5.7
     restart: always
