@@ -11,10 +11,11 @@ services:
       - my_sql
     ports:
       - 5000:5000
-    environment:
-      - "DEV_DATABASE_URL=mysql+mysqlconnector://user:dev@my_sql:3306/local_dev"
+    env_file:
+      - .env.dev
     depends_on:
       - my_sql
+    command: flask db upgrade
 
   my_redis:
     image: redis:4.0.11-alpine
