@@ -13,7 +13,5 @@ RUN poetry install
 
 COPY . .
 
-ENTRYPOINT ["sh", "./app_docker/docker-entrypoint.sh"]
-
 ENV FLASK_APP=$runfile
 CMD flask run --host=0.0.0.0
