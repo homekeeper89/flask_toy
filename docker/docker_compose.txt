@@ -1,0 +1,12 @@
+version: '3' # 사용할 compose format 버젼.
+
+services: # compose할 서비스들
+    api: # 내가 올릴 서비스 이름. 어디에 저장 되는지 찾아야함.
+        build: . # Dockerfile이 있는 곳. 경로를 적어줘도 되고 그 아래 context를 명시해도 됨. 작성된 Dockerfile이 아닌 image를 사용할 경우 작성할 필요 없음.
+            context: # build를 아무것도 명시 안했을 경우 사용, docker build 명령을 실행할 디렉토리 경로
+            dockerfile: # 사용할 도커 이미지 파일, Dockerfile이 아닌 경우 이름을 명시하는 역할
+            args: #docker 빌드시 환경변수 처럼 줄 수 있음
+                arg_one:1 # Dockerfile에서 $buildno로 사용가능
+                arg_two:3619 #Dockerfile에서 $gitcommithash로 사용가능
+        volumes: # 내 컴퓨터와 가상(도커) 와 연결
+        
