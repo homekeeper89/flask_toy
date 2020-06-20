@@ -7,15 +7,12 @@ services:
       dockerfile: ./app_docker/Dockerfile
       args:
         runfile: main.py
-    links:
-      - my_sql
     ports:
       - 5000:5000
-    env_file:
-      - .env.dev
     depends_on:
       - my_sql
-    command: flask db upgrade
+    env_file:
+      - .env.dev
 
   my_redis:
     image: redis:4.0.11-alpine
