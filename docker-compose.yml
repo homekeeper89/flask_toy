@@ -1,18 +1,22 @@
-version: "3"
+version: "3.0"
 
 services:
-  flask_web:
+  my_app:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile-ver
+      dockerfile: ./app_docker/Dockerfile
       args:
-        runfile: app.py
+        runfile: main.py
     ports:
       - 5000:5000
+    depends_on:
+      - my_sql
+    env_file:
+      - .env.dev
 
   my_redis:
     image: redis:4.0.11-alpine
-    container_name: redis_container
+    container_name: my_redis_container
     ports:
       - 6379:6379
 
@@ -22,6 +26,7 @@ services:
     container_name: mysql_5.7_container
     environment:
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=local_dev
       - MYSQL_USER=user
       - MYSQL_PASSWORD=dev
     command:
@@ -31,7 +36,5 @@ services:
       - 5678:3306
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+    expose:
+      - 5678
