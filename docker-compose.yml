@@ -13,6 +13,15 @@ services:
       - my_sql
     env_file:
       - .env.dev
+    environment:
+      - APP_NAME=TotalApp
+
+  nginx:
+    build: ./nginx
+    container_name: my_nginx
+    restart: always
+    ports:
+      - "80:80"
 
   my_redis:
     image: redis:4.0.11-alpine
