@@ -1,4 +1,5 @@
 from pytest_bdd import scenario, given, when, then
+import pytest
 
 
 @scenario("publish_article.feature", "Publishing the article")
@@ -16,6 +17,7 @@ def article(author):
     return create_test_article(author=author)
 
 
+@pytest.mark.skip(reasson="nosite")
 @when("I go to the article page")
 def go_to_article(article, browser):
     browser.visit(urljoin(browser.url, "/manage/articles/{0}/".format(article.id)))
