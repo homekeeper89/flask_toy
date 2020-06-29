@@ -4,7 +4,7 @@ import pytest
 
 @scenario("publish_article.feature", "Publishing the article")
 def test_publish():
-    pass
+    assert article.title in browser.html
 
 
 @given("I'm an author user")
