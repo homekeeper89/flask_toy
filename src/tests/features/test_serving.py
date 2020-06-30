@@ -1,13 +1,13 @@
 import pytest
-from pytest_bdd import scenarios, given, when, then
+from pytest_bdd import parsers, scenarios, given, when, then
 from src.bdd.salty import Shaker
 
 scenarios("./serving.feature")
 
 
-@given("A Salt Shaker")
-def salt_shaker():
-    yield Shaker()
+@given(parsers.cfparse("A Salt Shaker with {doses:d} doses"))
+def salt_shaker(doses):
+    yield Shaker(doses)
 
 
 @pytest.fixture
@@ -16,6 +16,11 @@ def served(salt_shaker):
     yield salt_shaker.shake()
 
 
-@then("A salt dose falls on my plate")
-def doses_serve(served):
-    assert served == 1
+@then(parsers.cfparse("{expected_served:d} salt dose falls on my plate"))
+def served_doses(served, expected_served):
+    assert served == expected_served
+
+
+@then("It's empty!")
+def its_empty(salt_shaker):
+    assert salt_shaker.remaining == 0
