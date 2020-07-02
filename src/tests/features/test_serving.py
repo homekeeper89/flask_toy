@@ -1,26 +1,36 @@
 import pytest
 from pytest_bdd import parsers, scenarios, given, when, then
+
 from src.bdd.salty import Shaker
 
-scenarios("./serving.feature")
+CONVERTERS = dict(doses=int, shakes=int, expected_remaining=int, expected_served=int)
+
+scenarios("./serving.feature", example_converters=CONVERTERS)
 
 
+@given("A Salt Shaker with <doses> doses")
 @given(parsers.cfparse("A Salt Shaker with {doses:d} doses"))
 def salt_shaker(doses):
     yield Shaker(doses)
 
 
 @pytest.fixture
-@when("I shake it once")
-def served(salt_shaker):
-    yield salt_shaker.shake()
+@when(parsers.parse("I shake the shaker {shakes:d} times"))
+@when("I shake the shaker <shakes> times")
+def served(salt_shaker, shakes):
+    doses = 0
+    for i in range(0, shakes):
+        doses += salt_shaker.shake()
+    yield doses
 
 
-@then(parsers.cfparse("{expected_served:d} salt dose falls on my plate"))
+@then(parsers.cfparse("{expected_served:d} salt doses falls on my plate"))
+@then("<expected_served> salt doses fall on my plate")
 def served_doses(served, expected_served):
     assert served == expected_served
 
 
-@then("It's empty!")
-def its_empty(salt_shaker):
-    assert salt_shaker.remaining == 0
+@then(parsers.parse("The shaker contains {expected_remaining:d} doses"))
+@then("The shaker contains <expected_remaining> doses")
+def check_remaining(salt_shaker, expected_remaining):
+    assert salt_shaker.remaining == expected_remaining
