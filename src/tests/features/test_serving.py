@@ -27,6 +27,7 @@ def served(salt_shaker, shakes):
 @then(parsers.cfparse("{expected_served:d} salt doses falls on my plate"))
 @then("<expected_served> salt doses fall on my plate")
 def served_doses(served, expected_served):
+    print(expected_served)
     assert served == expected_served
 
 
