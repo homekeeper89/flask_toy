@@ -19,7 +19,7 @@ def salt_shaker(doses):
 @when("I shake the shaker <shakes> times")
 def served(salt_shaker, shakes):
     doses = 0
-    for i in range(0, shakes):
+    for _ in range(0, shakes):
         doses += salt_shaker.shake()
     yield doses
 
@@ -27,7 +27,6 @@ def served(salt_shaker, shakes):
 @then(parsers.cfparse("{expected_served:d} salt doses falls on my plate"))
 @then("<expected_served> salt doses fall on my plate")
 def served_doses(served, expected_served):
-    print(expected_served)
     assert served == expected_served
 
 
