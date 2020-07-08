@@ -13,14 +13,20 @@ Feature: Serving
     When I shake the shaker 1 times
     Then 0 salt doses falls on my plate
     And The shaker contains 0 doses
-  
+
+  Scenario: Custom Shaker
+    Given A Salt Shaker with 100 doses
+    When I shake the shaker 99 times
+    Then 99 salt doses falls on my plate
+    And The shaker contains 1 doses
+
 
   Scenario: Serve multiple times
     Given A Salt Shaker with <doses> doses
     When I shake the shaker <shakes> times
     Then <expected_served> salt doses fall on my plate
     And The shaker contains <expected_remaining> doses
-  
+
 
 
     Examples:
