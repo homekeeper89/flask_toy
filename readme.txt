@@ -4,3 +4,4 @@
 - poetry run python main.py 로 실행
 
 # docker 명령어 추가중
+- docker-compose up -d
