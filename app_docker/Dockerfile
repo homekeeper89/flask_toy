@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.7.2-stretch
 
 ARG runfile
 
@@ -14,4 +14,5 @@ RUN poetry install
 COPY . .
 
 ENV FLASK_APP=$runfile
-CMD flask run --host=0.0.0.0
+# CMD flask run --host=0.0.0.0
+CMD ["uwsgi", "app.ini"]
