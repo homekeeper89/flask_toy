@@ -1,9 +1,9 @@
-Feature: Serving
-  As a hungry diner,
-  I want to add some salt to my plate
-  To Make my food tastier
+Feature: User-api
+  As a user,
+  I want to register this app
+  With My Information
 
-  Scenario: Single Service
+  Scenario: Normal Register
     Given A Salt Shaker with 200 doses
     When I shake the shaker 1 times
     Then 1 salt doses falls on my plate
