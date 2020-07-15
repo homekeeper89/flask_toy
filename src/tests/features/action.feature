@@ -4,9 +4,9 @@ Feature: User-api
   With My Information
 
   Scenario: Normal Register
-    Given A Salt Shaker with 200 doses
-    When I shake the shaker 1 times
-    Then 1 salt doses falls on my plate
+    Given A normal user
+    When user add id and password
+    Then user enter key to send
 
   Scenario: Empty shaker
     Given A Salt Shaker with 0 doses
