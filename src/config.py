@@ -36,10 +36,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     NAME = "TEST"
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("DEV_DATABASE_URL")
-        or "mysql+mysqlconnector://root:root@my_sql:5678/local_test"
-    )
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DEV_DATABASE_URL") or "sqlite:///:memory:"
     KAKAO_API_KEY = "b53870ce18f5edf1a99e3eae379e0abe"
 
 

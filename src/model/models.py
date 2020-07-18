@@ -4,8 +4,9 @@ from sqlalchemy.sql import func
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(128))
-    password = db.Column(db.String(128))
+    name = db.Column(db.String(128))
+    email = db.Column(db.String(128), nullable=True)
+    password = db.Column(db.String(128), nullable=True)
     todos = db.relationship("Todos", backref="user", lazy=True)
 
     def to_entity(self):
