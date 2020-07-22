@@ -2,7 +2,6 @@ import factory
 from datetime import datetime
 from faker import Factory as FakerFactory
 from src.model.models import User, Todos
-from pytest_factoryboy import register
 
 faker = FakerFactory.create()
 
