@@ -3,6 +3,8 @@ from sqlalchemy.sql import func
 
 
 class User(db.Model):
+    __table_name__ = "users"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))
     email = db.Column(db.String(128), nullable=True)
@@ -14,6 +16,8 @@ class User(db.Model):
 
 
 class Todos(db.Model):
+    __table_name__ = "todos"
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     contents = db.Column(db.String(200))
