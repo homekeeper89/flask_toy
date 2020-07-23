@@ -10,7 +10,6 @@ class User(db.Model):
     email = db.Column(db.String(128), nullable=True)
     password = db.Column(db.String(128), nullable=True)
 
-    todos = db.relationship("Todos", backref="author", lazy=True)  # 객체 이름을 받는다.
     # todos.author를 하면 user_id가 나온다..?
 
     def to_entity(self):
@@ -25,5 +24,7 @@ class Todos(db.Model):
     contents = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, onupdate=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    todo_user = db.relationship("User", backref="author", lazy=True)  # 객체 이름을 받는다.
+    # author은 User에서 갖고 있는 속성. 페이지마다 설명이 다 다르네

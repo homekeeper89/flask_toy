@@ -14,6 +14,7 @@ def user(user_factory):
 
 @pytest.fixture()
 def todo(user, todos_factory):
+
     return todos_factory(user=user)
 
 
