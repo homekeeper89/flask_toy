@@ -25,3 +25,4 @@ class Todos(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
+    relationship(User.id)
