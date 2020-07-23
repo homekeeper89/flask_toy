@@ -18,6 +18,5 @@ def todo(user, todos_factory):
 
 
 def test_factory_first(todo):
-
     assert todo is not None
     assert todo.user.email is not None

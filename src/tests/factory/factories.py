@@ -24,7 +24,7 @@ class TodosFactory(factory.Factory):
     class Meta:
         model = Todos
 
-    title = factory.LazyAttribute(lambda x: factory.name())
+    title = factory.LazyAttribute(lambda x: faker.name())
     created_at = factory.LazyAttribute(lambda x: datetime.now())
     updated_at = factory.LazyAttribute(lambda x: datetime.now())
 
