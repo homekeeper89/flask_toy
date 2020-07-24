@@ -1,7 +1,7 @@
 import pytest
 from pytest_factoryboy import register
 
-from .factory.factories import UserFactory, TodosFactory
+from .factory.factories import UserFactory, TodosFactory, UserWithTodoFactory
 
 register(UserFactory)
 register(TodosFactory)
@@ -24,3 +24,12 @@ def test_factory_first(todo):
     ipdb.set_trace()
     assert todo is not None
     assert todo.user.email is not None
+
+
+def test_factory_multi():
+    user = UserWithTodoFactory.create()
+    assert user is not None
+    assert len(user.todos) > 0
+
+    user = UserWithTodoFactory.create(todos=3)
+    assert len(user.todos) == 3

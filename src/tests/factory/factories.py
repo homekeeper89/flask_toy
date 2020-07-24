@@ -16,7 +16,7 @@ class UserFactory(factory.Factory):
     email = factory.Faker("safe_email")
     name = factory.LazyAttribute(lambda x: faker.name())
 
-    todos = factory.RelatedFactoryList(".tests.factories.TodosFactory", size=3)
+    # todos = factory.RelatedFactoryList(".tests.factories.TodosFactory", size=3)
 
 
 class TodosFactory(factory.Factory):
@@ -30,13 +30,13 @@ class TodosFactory(factory.Factory):
     created_at = factory.LazyAttribute(lambda x: datetime.now())
     updated_at = factory.LazyAttribute(lambda x: datetime.now())
 
-    user = factory.SubFactory(UserFactory, samples=[])
+    user = factory.SubFactory(UserFactory)
 
 
 # https://simpleit.rocks/python/django/setting-up-a-factory-for-one-to-many-relationships-in-factoryboy/
-class TodoWithUserFactory(UserFactory):
+class UserWithTodoFactory(UserFactory):
     @factory.post_generation
-    def players(obj, create, extracted, **kwargs):
+    def todos(obj, create, extracted, **kwargs):
         """
         If called like: TeamFactory(players=4) it generates a Team with 4
         players.  If called without `players` argument, it generates a
@@ -48,10 +48,10 @@ class TodoWithUserFactory(UserFactory):
 
         if extracted:
             for n in range(extracted):
-                myapp.factories.PlayerFactory(team=obj)
+                TodosFactory(user=obj)
         else:
             import random
 
             number_of_units = random.randint(1, 10)
             for n in range(number_of_units):
-                myapp.factories.PlayerFactory(team=obj)
+                TodosFactory(user=obj)
