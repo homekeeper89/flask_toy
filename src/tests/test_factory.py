@@ -19,5 +19,8 @@ def todo(user, todos_factory):
 
 
 def test_factory_first(todo):
+    import ipdb
+
+    ipdb.set_trace()
     assert todo is not None
     assert todo.user.email is not None
