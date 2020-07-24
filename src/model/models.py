@@ -26,5 +26,5 @@ class Todos(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=func.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    todo_user = db.relationship("User", backref="author", lazy=True)  # 객체 이름을 받는다.
-    # author은 User에서 갖고 있는 속성. 페이지마다 설명이 다 다르네
+    user = db.relationship("User", backref="todos", lazy=True)  # 객체 이름을 받는다.
+    # 가상의 필드이고 연결된 객체(여기선 "User")에서 author로 불러올 수 있따.
