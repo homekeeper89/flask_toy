@@ -52,8 +52,11 @@ def hello_world(*args, **kwargs):
 
 # pytest -x --pdb fail 뜨면 멈춤
 # pytest test_skip.py --pdb --pdbcls=IPython.terminal.debugger:Pdb
-# > ipdb를 사용하는 것
+# > ipdb를 사용해서 fail이 되면 멈춘다
+
+
 @pytest.mark.my_marker.with_args(hello_world)
-@pytest.mark.xfail(reason="with_args 테스트용")
 def test_with_args():
-    assert 3 == 2
+    res = hello_world()
+    print(res)
+    assert len(res) == 10

@@ -3,6 +3,7 @@ import random
 import json
 from unittest.mock import Mock
 from requests.models import Response
+from .factory.factories import UserFactory, TodosFactory, UserWithTodoFactory
 from src import create_app
 from src.database import db as _db
 
@@ -50,6 +51,14 @@ def session(app, db, request):
     transaction.rollback()
     connection.close()
     session.remove()
+
+
+@pytest.fixture
+def make_data_preset(session):
+    UserFactory._meta.sqlalchemy_session = session
+    TodosFactory._meta.sqlalchemy_session = session
+    UserWithTodoFactory._meta.sqlalchemy_session = session
+    UserFactory()
 
 
 @pytest.fixture

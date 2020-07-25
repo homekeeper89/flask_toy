@@ -12,10 +12,8 @@ def test_is_session_work(session):
     fake = Faker()
     user = {"email": fake.email(), "password": "helloWorld"}
 
-@pytest.mark.parametrize('id, name',[
-    (1, 'hellp'),
-    (2, 'kko')
-])
+
+@pytest.mark.parametrize("id, name", [(1, "hellp"), (2, "kko")])
 def test_is_session_work(session, id, name):
     user = {"id": id, "name": name}
     session.add(User(**user))
@@ -23,3 +21,11 @@ def test_is_session_work(session, id, name):
 
     res = session.query(User).first()
     assert res.id != 0
+
+
+def test_related_model_should_connect():
+    us = User()
+    td = Todos()
+    us.todos.append(td)
+    assert us is not None
+

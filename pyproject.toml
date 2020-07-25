@@ -23,6 +23,8 @@ zappa = "^0.51.0"
 redis = "^3.5.1"
 aiohttp = "^3.6.2"
 uwsgi = "^2.0.19"
+pytest-factoryboy = "^2.0.3"
+faker = "^4.1.1"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"
