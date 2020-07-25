@@ -6,7 +6,7 @@ from src.model.models import User, Todos
 faker = FakerFactory.create()
 
 
-class UserFactory(factory.Factory):
+class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
     """ Define user factory
     """
 
@@ -19,7 +19,7 @@ class UserFactory(factory.Factory):
     # todos = factory.RelatedFactoryList(".tests.factories.TodosFactory", size=3)
 
 
-class TodosFactory(factory.Factory):
+class TodosFactory(factory.alchemy.SQLAlchemyModelFactory):
     """Define todo factory
     """
 
