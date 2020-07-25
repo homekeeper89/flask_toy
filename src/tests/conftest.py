@@ -58,7 +58,7 @@ def make_data_preset(session):
     UserFactory._meta.sqlalchemy_session = session
     TodosFactory._meta.sqlalchemy_session = session
     UserWithTodoFactory._meta.sqlalchemy_session = session
-    UserFactory()
+    UserFactory.create_batch(10)
 
 
 @pytest.fixture
