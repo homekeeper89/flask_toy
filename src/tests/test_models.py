@@ -29,3 +29,10 @@ def test_related_model_should_connect():
     us.todos.append(td)
     assert us is not None
 
+
+def test_custom_model(session):
+    User.create(name="custom")
+    res = User.get_user(1)
+    assert res.id == 1
+    assert res.name == "custom"
+

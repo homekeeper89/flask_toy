@@ -15,6 +15,16 @@ class User(db.Model):
     def to_entity(self):
         return {"id": self.id, "email": self.email}
 
+    @classmethod
+    def create(cls, **kwards):
+        obj = cls(**kwards)
+        db.session.add(obj)
+        db.session.commit()
+
+    @classmethod
+    def get_user(cls, id: int):
+        return db.session.query(User).filter(User.id == id).first()
+
 
 class Todos(db.Model):
     __table_name__ = "todos"
