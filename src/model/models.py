@@ -25,6 +25,10 @@ class User(db.Model):
     def get_user(cls, id: int):
         return db.session.query(User).filter(User.id == id).first()
 
+    @property
+    def email(self):
+        return self.email
+
 
 class Todos(db.Model):
     __table_name__ = "todos"
