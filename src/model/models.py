@@ -1,5 +1,6 @@
 from src.database import db
 from sqlalchemy.sql import func
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 class User(db.Model):
@@ -25,9 +26,13 @@ class User(db.Model):
     def get_user(cls, id: int):
         return db.session.query(User).filter(User.id == id).first()
 
-    @property
+    @hybrid_property
     def email(self):
         return self.email
+
+    @email.setter(self)
+    def email(self, email):
+        return self.email = email
 
 
 class Todos(db.Model):
