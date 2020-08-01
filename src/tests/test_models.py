@@ -1,5 +1,5 @@
 from src.database import db
-from src.model.models import User
+from src.model.models import User, Todos
 import pytest
 from faker import Faker
 

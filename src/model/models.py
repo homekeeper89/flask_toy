@@ -30,9 +30,9 @@ class User(db.Model):
     def email(self):
         return self.email
 
-    @email.setter(self)
+    @email.setter
     def email(self, email):
-        return self.email = email
+        return self.email == email
 
 
 class Todos(db.Model):

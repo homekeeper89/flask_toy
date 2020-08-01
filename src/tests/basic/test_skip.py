@@ -59,4 +59,4 @@ def hello_world(*args, **kwargs):
 def test_with_args():
     res = hello_world()
     print(res)
-    assert len(res) == 10
+    assert len(res) != 10
