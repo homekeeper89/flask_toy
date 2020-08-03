@@ -16,13 +16,10 @@ def test_get_user_should_all(flask_client):
 
 @pytest.mark.user
 def test_user_repo_get_user_list_should_all(session):
-    data_list = []
     for _ in range(20):
         fake = Faker()
         data = {"email": fake.email(), "password": fake.name()}
-        data_list.append(User(**data))
-    session.add_all(data_list)
-    session.commit()
+        User.create(**data)
 
     page = 1
 
