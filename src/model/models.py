@@ -10,8 +10,7 @@ class User(db.Model):
     name = db.Column(db.String(128))
     email = db.Column(db.String(128), nullable=True)
     password = db.Column(db.String(128), nullable=True)
-    age = db.Column(db.Integer)
-
+    age = db.Column(db.Integer, default=20)
     # todos.author를 하면 user_id가 나온다..?
 
     def to_entity(self):
@@ -26,6 +25,15 @@ class User(db.Model):
     @classmethod
     def get_user(cls, id: int):
         return db.session.query(User).filter(User.id == id).first()
+
+    @classmethod
+    def get_user_by_name(cls, name: str):
+        return db.session.query(User).filter(User.name == name).first()
+
+    @hybrid_property
+    def diff_age(self) -> int:
+        basic = 20
+        return self.age - basic
 
 
 class Todos(db.Model):

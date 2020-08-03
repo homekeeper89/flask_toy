@@ -4,15 +4,11 @@ import pytest
 from faker import Faker
 
 
-def test_is_app_running(app):
-    assert app is not None
-
-
-@pytest.mark.parametrize("id, name", [(1, "hellp"), (2, "kko")])
-def test_is_session_work(session, id, name):
-    user = {"id": id, "name": name}
+@pytest.mark.parametrize("name", [("hellp"), ("kko")])
+def test_is_session_work(session, name):
+    user = {"name": name}
     User.create(**user)
-    res = User.get_user(id)
+    res = User.get_user_by_name(name)
     assert res is not None
 
 
@@ -24,8 +20,16 @@ def test_related_model_should_connect():
 
 
 def test_custom_model(session):
-    User.create(name="custom")
-    res = User.get_user(1)
+    name = "custom"
+    User.create(name=name)
+    res = User.get_user_by_name(name)
+    # res = User.get_user(1)
     assert res.id == 1
-    assert res.name == "custom"
+    assert res.name == name
+
+
+def test_model_hybrid_property(session):
+    User.create(name="hybrid", age=10)
+    res = User.get_user_by_name("hybrid")
+    assert res.diff_age < 0
 
