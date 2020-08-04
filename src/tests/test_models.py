@@ -33,3 +33,7 @@ def test_model_hybrid_property(session):
     res = User.get_user_by_name("hybrid")
     assert res.diff_age < 0
 
+
+def test_model_hybrid_function(session):
+    User.create(name="hybrid_function", age=10)
+    assert True
