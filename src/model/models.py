@@ -1,6 +1,6 @@
 from src.database import db
 from sqlalchemy.sql import func
-from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 
 
 class User(db.Model):
@@ -34,6 +34,10 @@ class User(db.Model):
     def diff_age(self) -> int:
         basic = 20
         return self.age - basic
+
+    @hybrid_method
+    def contains(self, point):
+        return self.age <= point
 
 
 class Todos(db.Model):
