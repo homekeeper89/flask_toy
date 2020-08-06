@@ -19,7 +19,7 @@ def test_related_model_should_connect():
     assert us is not None
 
 
-def test_custom_model(session):
+def test_custom_model_function_should_works(session):
     name = "custom"
     User.create(name=name)
     res = User.get_user_by_name(name)
@@ -28,13 +28,13 @@ def test_custom_model(session):
     assert res.name == name
 
 
-def test_model_hybrid_property(session):
+def test_model_hybrid_property_should_works(session):
     User.create(name="hybrid", age=10)
     res = User.get_user_by_name("hybrid")
     assert res.diff_age < 0
 
 
-def test_model_hybrid_function(session):
+def test_model_hybrid_function_should_works(session):
     User.create(name="hybrid_function", age=10)
     res = User.get_user_by_name("hybrid_function")
     res = res.contains(20)
