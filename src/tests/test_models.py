@@ -1,4 +1,3 @@
-from src.database import db
 from src.model.models import User, Todos
 import pytest
 from faker import Faker
@@ -23,8 +22,6 @@ def test_custom_model_function_should_works(session):
     name = "custom"
     User.create(name=name)
     res = User.get_user_by_name(name)
-    # res = User.get_user(1)
-    assert res.id == 1
     assert res.name == name
 
 

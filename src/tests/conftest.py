@@ -35,7 +35,7 @@ def flask_client(app, db):
     return app.test_client()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def session(app, db, request):
     """Creates a new database session for each test, rolling back changes afterwards"""
     connection = _db.engine.connect()
