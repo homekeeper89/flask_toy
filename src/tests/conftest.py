@@ -82,6 +82,5 @@ def category_search_response():
     rand_num = random.randint(50, 100)
     res = Mock(spec=Response)
     res.json.return_value = {"meta": {"total_count": rand_num}}
-
     # {"document": {}, "meta": {"total_count": random.randint(50, 100)}}
     return res

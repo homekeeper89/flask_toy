@@ -16,6 +16,7 @@ def test_related_model_should_connect():
     td = Todos()
     us.todos.append(td)
     assert us is not None
+    assert us.todos is not None
 
 
 def test_custom_model_function_should_works(session):
