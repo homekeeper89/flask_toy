@@ -14,6 +14,6 @@ def test_factory_multi(session):
     assert len(user.todos) == 3
 
 
-def test_factory_ficture(make_data_preset, session):
+def test_factory_fixture(make_data_preset, session):
     user = session.query(User).all()
     assert len(user) != 0

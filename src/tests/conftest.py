@@ -35,7 +35,7 @@ def flask_client(app, db):
     return app.test_client()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def session(app, db, request):
     """Creates a new database session for each test, rolling back changes afterwards"""
     connection = _db.engine.connect()
@@ -58,7 +58,7 @@ def make_data_preset(session):
     UserFactory._meta.sqlalchemy_session = session
     TodosFactory._meta.sqlalchemy_session = session
     UserWithTodoFactory._meta.sqlalchemy_session = session
-    UserFactory()
+    UserFactory.create_batch(10)
 
 
 @pytest.fixture
@@ -82,6 +82,5 @@ def category_search_response():
     rand_num = random.randint(50, 100)
     res = Mock(spec=Response)
     res.json.return_value = {"meta": {"total_count": rand_num}}
-
     # {"document": {}, "meta": {"total_count": random.randint(50, 100)}}
     return res

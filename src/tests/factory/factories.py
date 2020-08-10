@@ -16,8 +16,6 @@ class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
     email = factory.Faker("safe_email")
     name = factory.LazyAttribute(lambda x: faker.name())
 
-    # todos = factory.RelatedFactoryList(".tests.factories.TodosFactory", size=3)
-
 
 class TodosFactory(factory.alchemy.SQLAlchemyModelFactory):
     """Define todo factory
