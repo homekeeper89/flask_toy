@@ -35,8 +35,10 @@ class KakaoApiHandler:
         resp = requests.request(**kwargs)
         return resp
 
-    def parse_request(self, request: dict) -> dict:
-        data = request.json()
+    def parse_request(self, request) -> dict:
+        data = request
+        if not isinstance(request, dict):
+            data = request.json()
         data = data["data"]
         return data
 
@@ -60,7 +62,7 @@ class KakaoApiHandler:
         return True
 
     def set_meta_value(self, category: str, response: dict) -> None:
-        value = response["meta"].get("total_count", 0)
+        value = response.get("meta", {}).get("total_count", 0)
         data = {"category": category, "total_count": value}
         self.values.append(data)
 
