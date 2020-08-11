@@ -1,10 +1,12 @@
 https://testautomationu.applitools.com/behavior-driven-python-with-pytest-bdd/chapter6.html
 유저
+- 이메일, 비밀번호(해쉬화), 닉네임, 생성날짜, 업데이트 날짜, 
 - 가입 : 
 - 수정
 - 삭제
 
 todo
+- 제목, 내용, 작성자, 작성시간, 해쉬태그, 업데이트 시간, 
 - 등록
     - 금지어 filter 기능
 - 수정
