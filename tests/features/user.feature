@@ -4,12 +4,12 @@ Feature: User Instant Answer API
     So that my app can get answer anywhere.
 
     Scenario Outline: Basic App Api query
-        Given the app api is quried with "<phrase>"
+        Given the app api is queried with "<phrase>"
         Then the response status code is "200"
         And the response contains results for "<phrase>"
 
         Examples: Animalis
-            | pharase  |
+            | phrase   |
             | panda    |
             | python   |
             | platypus |
