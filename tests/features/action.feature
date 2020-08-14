@@ -3,11 +3,6 @@ Feature: User-api
   I want to register this app
   With My Information
 
-  Scenario: Normal Register
-    Given A normal user
-    When user add id and password
-    Then user enter key to send
-
   Scenario: Empty shaker
     Given A Salt Shaker with 0 doses
     When I shake the shaker 1 times

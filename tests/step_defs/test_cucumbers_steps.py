@@ -1,8 +1,6 @@
 from pytest_bdd import scenario, given, when, then
 
-# from src.bdd.cucumber import CucumberBasket
-
-from application.src.bdd.cucumber import CucumberBasket
+from src.bdd.cucumber import CucumberBasket
 
 
 @scenario("../features/cucumbers.feature", "Add cucumbers to a basket")
@@ -17,7 +15,7 @@ def basket():
 
 @when("4 cucumbers are added to the basket")
 def add_cucumbers(basket):
-    basket.add(4)``
+    basket.add(4)
 
 
 @then("the basket contains 6 cucumbers")
