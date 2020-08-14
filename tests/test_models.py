@@ -1,6 +1,5 @@
 from src.model.models import User, Todos
 import pytest
-from faker import Faker
 
 
 @pytest.mark.parametrize("name", [("hellp"), ("kko")])
