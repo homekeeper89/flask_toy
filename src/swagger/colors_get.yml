@@ -1,0 +1,85 @@
+타이틀 설명
+타이틀 추가 설명
+---
+parameters:
+  - name: target
+    in: path
+    type: string
+    description: api endpoint
+    default: geocode
+  - name: lat
+    in: query
+    type: integer
+    description: 클라이언트의 위치정보, 위도
+    required: true
+  - name: lon
+    in: query
+    type: integer
+    required: true
+    description: 클라이언트의 위치정보, 경도
+definitions:
+  geocode:
+    type: object
+    properties:
+      plus_code:
+        type: object
+        properties:
+          compound_code:
+            type: string
+          global_code:
+            type: string
+      results:
+        type: array
+        items:
+          $ref: "#/definitions/address_components"
+  address_components:
+    type: object
+    properties:
+      address_components:
+        type: array
+        items:
+          oneOf:
+            - $ref: "#/definitions/locality_long_name"
+            - $ref: "#/definitions/admin_long_name"
+            - $ref: "#/definitions/state_name"
+  locality_long_name:
+    type: object
+    properties:
+      long_name:
+        type: string
+      short_name:
+        type: string
+      types:
+        type: array
+        items:
+          type: string
+          example: locality, political
+  admin_long_name:
+    type: object
+    properties:
+      long_name:
+        type: string
+      short_name:
+        type: string
+      types:
+        type: array
+        items:
+          type: string
+          example: administrative_area_level_1, political
+  state_name:
+    type: object
+    properties:
+      long_name:
+        type: string
+      short_name:
+        type: string
+      types:
+        type: array
+        items:
+          type: string
+          example: country, political
+responses:
+  200:
+    description: A list of colors (may be filtered by palette)
+    schema:
+      $ref: '#/definitions/geocode'

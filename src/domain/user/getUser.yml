@@ -1,0 +1,19 @@
+모든 유저를 보여준다.
+---
+parameters:
+  - name: page
+    in: path
+    type: int
+    schema:
+      $ref: "#/definitions/UserCreate"
+definitions:
+  UserCreate:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+responses:
+  200:
+    description: Get all user data
