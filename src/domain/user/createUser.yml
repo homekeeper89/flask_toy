@@ -1,0 +1,21 @@
+유저 회원 가입을 진행한다.
+---
+parameters:
+  - name: user-create
+    in: body
+    type: string
+    required: true
+    schema:
+      $ref: "#/definitions/UserCreate"
+definitions:
+  UserCreate:
+    type: object
+    properties:
+      email:
+        type: string
+        default: email@naver.com
+      password:
+        type: string
+responses:
+  200:
+    description: Registering User is success

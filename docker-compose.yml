@@ -1,0 +1,49 @@
+version: "3.0"
+
+services:
+  my_app:
+    build:
+      context: .
+      dockerfile: ./app_docker/Dockerfile
+      args:
+        runfile: main.py
+    expose:
+      - 8080
+    depends_on:
+      - my_sql
+    env_file:
+      - .env.dev
+    environment:
+      - APP_NAME=TotalApp
+
+  nginx:
+    build: ./nginx
+    container_name: my_nginx
+    restart: always
+    ports:
+      - "80:80"
+
+  my_redis:
+    image: redis:4.0.11-alpine
+    container_name: my_redis_container
+    ports:
+      - 6379:6379
+
+  my_sql:
+    image: mysql:5.7
+    restart: always
+    container_name: mysql_5.7_container
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=local_dev
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=dev
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 5678:3306
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    expose:
+      - 5678
