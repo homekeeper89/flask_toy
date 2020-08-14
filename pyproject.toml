@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "application"
+name = "flask_dev"
 version = "0.1.0"
 description = ""
 authors = ["matthew <matthew@cupist.com>"]
