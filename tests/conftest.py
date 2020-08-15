@@ -1,7 +1,7 @@
 import pytest
 import random
-import json
 from unittest.mock import Mock
+
 from requests.models import Response
 from .factory.factories import UserFactory, TodosFactory, UserWithTodoFactory
 from src import create_app
