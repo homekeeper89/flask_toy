@@ -1,4 +1,4 @@
-from pytest_bdd import scenario, given, when, then
+from pytest_bdd import scenario, given, when, then, parsers
 
 from src.bdd.cucumber import CucumberBasket
 
@@ -8,16 +8,18 @@ def test_add():
     pass
 
 
-@given("the basket has 2 cucumbers")
-def basket():
-    return CucumberBasket(initial_count=2)
+@given(parsers.parse("the basket has {initial:Number} cucumbers", extra_types=dict(Number=int)))
+def basket(initial):
+    return CucumberBasket(initial_count=initial)
 
 
-@when("4 cucumbers are added to the basket")
-def add_cucumbers(basket):
-    basket.add(4)
+@when(
+    parsers.parse("{some:Number} cucumbers are added to the basket", extra_types=dict(Number=int))
+)
+def add_cucumbers(basket, some):
+    basket.add(some)
 
 
-@then("the basket contains 6 cucumbers")
-def basket_has_total(basket):
-    assert basket.count == 6
+@then(parsers.parse("the basket contains {total:Number} cucumbers", extra_types=dict(Number=int)))
+def basket_has_total(basket, total):
+    assert basket.count == total
