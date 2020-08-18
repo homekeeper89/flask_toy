@@ -1,16 +1,17 @@
-from pytest_bdd import scenario, given, when, then, parsers
+from pytest_bdd import scenario, given, when, then, parsers, scenarios
 
 from src.bdd.cucumber import CucumberBasket
 
+scenarios("../features/cucumbers.feature")
 
-@scenario("../features/cucumbers.feature", "Add cucumbers to a basket")
-def test_add():
-    pass
+# @scenario("../features/cucumbers.feature", "Add cucumbers to a basket")
+# def test_add():
+#     pass
 
 
-@scenario("../features/cucumbers.feature", "Remove cucumbers from a basket")
-def test_remove():
-    pass
+# @scenario("../features/cucumbers.feature", "Remove cucumbers from a basket")
+# def test_remove():
+#     pass
 
 
 @given(parsers.parse("the basket has {initial:Number} cucumbers", extra_types=dict(Number=int)))
