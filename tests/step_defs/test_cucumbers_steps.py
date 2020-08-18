@@ -1,3 +1,4 @@
+from functools import partial
 from pytest_bdd import scenario, given, when, then, parsers, scenarios
 
 from src.bdd.cucumber import CucumberBasket
@@ -5,7 +6,7 @@ from src.bdd.cucumber import CucumberBasket
 scenarios("../features/cucumbers.feature")
 
 EXTRA_TYPES = {"Number": int}
-
+parse_num = partial(parsers.parse, extra_types=EXTRA_TYPES)
 # @scenario("../features/cucumbers.feature", "Add cucumbers to a basket")
 # def test_add():
 #     pass
@@ -16,7 +17,7 @@ EXTRA_TYPES = {"Number": int}
 #     pass
 
 
-@given(parsers.parse("the basket has {initial:Number} cucumbers", extra_types=EXTRA_TYPES))
+@given(parse_num("the basket has {initial:Number} cucumbers"))
 def basket(initial):
     return CucumberBasket(initial_count=initial)
 
