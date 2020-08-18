@@ -8,6 +8,11 @@ def test_add():
     pass
 
 
+@scenario("../features/cucumbers.feature", "Remove cucumbers from a basket")
+def test_remove():
+    pass
+
+
 @given(parsers.parse("the basket has {initial:Number} cucumbers", extra_types=dict(Number=int)))
 def basket(initial):
     return CucumberBasket(initial_count=initial)
@@ -18,6 +23,11 @@ def basket(initial):
 )
 def add_cucumbers(basket, some):
     basket.add(some)
+
+
+@when(parsers.parse("{some:d} cucumbers are removed from the basket"))
+def remove(basket, some):
+    basket.remove(some)
 
 
 @then(parsers.parse("the basket contains {total:Number} cucumbers", extra_types=dict(Number=int)))
