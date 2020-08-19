@@ -8,11 +8,11 @@ Feature: Cucumber Baskter
         When <some> cucumbers are added to the basket
         Then the basket contains <total> cucumbers
 
-    # Examples: Amounts #parametrize를 사용할 경우 빼줘야함
-    #     | initial | some | total |
-    #     | 2       | 4    | 6     |
-    #     | 0       | 3    | 3     |
-    #     | 5       | 5    | 10    |
+        Examples: Amounts #parametrize를 사용할 경우 빼줘야함
+            | initial | some | total |
+            | 2       | 4    | 6     |
+            | 0       | 3    | 3     |
+            | 5       | 5    | 10    |
 
     Scenario: Remove cucumbers from a basket
         Given the basket has 8 cucumbers

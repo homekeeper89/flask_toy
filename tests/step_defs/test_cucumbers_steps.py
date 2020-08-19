@@ -8,18 +8,18 @@ from src.bdd.cucumber import CucumberBasket
 
 CONVERTERS = {"initial": int, "some": int, "total": int}
 
-# scenarios("../features/cucumbers.feature", example_converters=CONVERTERS)
+scenarios("../features/cucumbers.feature", example_converters=CONVERTERS)
 
 EXTRA_TYPES = {"Number": int}
 parse_num = partial(parsers.parse, extra_types=EXTRA_TYPES)
 
 
-@pytest.mark.parametrize(
-    ["initial", "some", "total"], [(2, 4, 6), (0, 3, 3)]
-)  # 이렇게 사용할 경우 remove 케이스는 포함이 안됨
-@scenario("../features/cucumbers.feature", "Add cucumbers to a basket")
-def test_add(initial, some, total):
-    pass
+# @pytest.mark.parametrize(
+#     ["initial", "some", "total"], [(2, 4, 6), (0, 3, 3)]
+# )  # 이렇게 사용할 경우 remove 케이스는 포함이 안됨
+# @scenario("../features/cucumbers.feature", "Add cucumbers to a basket")
+# def test_add(initial, some, total):
+#     pass
 
 
 # @scenario("../features/cucumbers.feature", "Remove cucumbers from a basket")
