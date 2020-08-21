@@ -1,22 +1,31 @@
-Feature: Cucumber Baskter
+@cucumber-basket
+Feature: Cucumber Basket
     As a gardener,
-    I want to carry cucumber in a basket,
-    So that i don't drop them all.
+    I want to carry cucumbers in a basket,
+    So that I don't drop them all.
 
+
+    @add
     Scenario Outline: Add cucumbers to a basket
         Given the basket has <initial> cucumbers
         When <some> cucumbers are added to the basket
         Then the basket contains <total> cucumbers
 
-        Examples: Amounts #parametrize를 사용할 경우 빼줘야함
+        Examples:
             | initial | some | total |
+            | 0       | 3    | 3     |
             | 2       | 4    | 6     |
-            | 0       | 3    | 3     |
-            | 0       | 3    | 3     |
-            | 5       | 5    | 10    |
             | 5       | 5    | 10    |
 
-    Scenario: Remove cucumbers from a basket
-        Given the basket has 8 cucumbers
-        When 3 cucumbers are removed from the basket
-        Then the basket contains 5 cucumbers
+
+    @remove
+    Scenario Outline: Remove cucumbers from the basket
+        Given the basket has <initial> cucumbers
+        When <some> cucumbers are removed from the basket
+        Then the basket contains <total> cucumbers
+
+        Examples:
+            | initial | some | total |
+            | 8       | 3    | 5     |
+            | 10      | 4    | 6     |
+            | 7       | 0    | 7     |
