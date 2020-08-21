@@ -13,6 +13,7 @@ Feature: Cucumber Baskter
             | 2       | 4    | 6     |
             | 0       | 3    | 3     |
             | 5       | 5    | 10    |
+            | 5       | 5    | 10    |
 
     Scenario: Remove cucumbers from a basket
         Given the basket has 8 cucumbers
