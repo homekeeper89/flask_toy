@@ -139,9 +139,10 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# pytest-testmon
-.testmondata
 #vscode
 .vscode
 
 .DS_Store
+
+#pytest testmondata
+.testmondata

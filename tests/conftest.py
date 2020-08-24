@@ -1,13 +1,14 @@
 import pytest
 import random
-import json
 from unittest.mock import Mock
+
 from requests.models import Response
 from .factory.factories import UserFactory, TodosFactory, UserWithTodoFactory
 from src import create_app
 from src.database import db as _db
 
 # https://stewartadam.io/blog/2019/04/04/testing-flask-applications-code-database-views-flask-config-and-app-context-pytest
+# https://realpython.com/pytest-python-testing/
 
 
 @pytest.fixture(scope="session")
