@@ -420,6 +420,14 @@ version = "3.0.1"
 
 [[package]]
 category = "main"
+description = "HTTP client mock for Python"
+name = "httpretty"
+optional = false
+python-versions = ">=3"
+version = "1.0.2"
+
+[[package]]
+category = "main"
 description = "Internationalized Domain Names in Applications (IDNA)"
 name = "idna"
 optional = false
@@ -576,6 +584,19 @@ name = "mistune"
 optional = false
 python-versions = "*"
 version = "0.8.4"
+
+[[package]]
+category = "main"
+description = "Rolling backport of unittest.mock for all Pythons"
+name = "mock"
+optional = false
+python-versions = ">=3.6"
+version = "4.0.2"
+
+[package.extras]
+build = ["twine", "wheel", "blurb"]
+docs = ["sphinx"]
+test = ["pytest", "pytest-cov"]
 
 [[package]]
 category = "main"
@@ -1045,6 +1066,18 @@ pymysql = ["pymysql"]
 
 [[package]]
 category = "main"
+description = "utility belt for automated testing in python for python"
+name = "sure"
+optional = false
+python-versions = "*"
+version = "1.4.11"
+
+[package.dependencies]
+mock = "*"
+six = "*"
+
+[[package]]
+category = "main"
 description = "The most basic Text::Unidecode port"
 name = "text-unidecode"
 optional = false
@@ -1243,7 +1276,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "b2273af185d39c719039b64c0190599c3feb4188258048f9f0f5172f143e7b1a"
+content-hash = "0b79656ded9df08bbc36e85eb898e1c2d18933eb02f3018bdc0144a22ce8d71a"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1421,6 +1454,9 @@ glob2 = [
 hjson = [
     {file = "hjson-3.0.1.tar.gz", hash = "sha256:1d1727faa6aaef2973921877125a3ab7c5f6d34b93233179d01770f41fab51f9"},
 ]
+httpretty = [
+    {file = "httpretty-1.0.2.tar.gz", hash = "sha256:24a6fd2fe1c76e94801b74db8f52c0fb42718dc4a199a861b305b1a492b9d868"},
+]
 idna = [
     {file = "idna-2.10-py2.py3-none-any.whl", hash = "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"},
     {file = "idna-2.10.tar.gz", hash = "sha256:b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6"},
@@ -1526,6 +1562,10 @@ mccabe = [
 mistune = [
     {file = "mistune-0.8.4-py2.py3-none-any.whl", hash = "sha256:88a1051873018da288eee8538d476dffe1262495144b33ecb586c4ab266bb8d4"},
     {file = "mistune-0.8.4.tar.gz", hash = "sha256:59a3429db53c50b5c6bcc8a07f8848cb00d7dc8bdb431a4ab41920d201d4756e"},
+]
+mock = [
+    {file = "mock-4.0.2-py3-none-any.whl", hash = "sha256:3f9b2c0196c60d21838f307f5825a7b86b678cedc58ab9e50a8988187b4d81e0"},
+    {file = "mock-4.0.2.tar.gz", hash = "sha256:dd33eb70232b6118298d516bbcecd26704689c386594f0f3c4f13867b2c56f72"},
 ]
 more-itertools = [
     {file = "more-itertools-8.4.0.tar.gz", hash = "sha256:68c70cc7167bdf5c7c9d8f6954a7837089c6a36bf565383919bb595efb8a17e5"},
@@ -1789,6 +1829,9 @@ sqlalchemy = [
     {file = "SQLAlchemy-1.3.18-cp38-cp38-win32.whl", hash = "sha256:109581ccc8915001e8037b73c29590e78ce74be49ca0a3630a23831f9e3ed6c7"},
     {file = "SQLAlchemy-1.3.18-cp38-cp38-win_amd64.whl", hash = "sha256:8619b86cb68b185a778635be5b3e6018623c0761dde4df2f112896424aa27bd8"},
     {file = "SQLAlchemy-1.3.18.tar.gz", hash = "sha256:da2fb75f64792c1fc64c82313a00c728a7c301efe6a60b7a9fe35b16b4368ce7"},
+]
+sure = [
+    {file = "sure-1.4.11.tar.gz", hash = "sha256:3c8d5271fb18e2c69e2613af1ad400d8df090f1456081635bd3171847303cdaa"},
 ]
 text-unidecode = [
     {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},

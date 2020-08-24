@@ -26,6 +26,8 @@ uwsgi = "^2.0.19"
 pytest-factoryboy = "^2.0.3"
 faker = "^4.1.1"
 requests = "^2.24.0"
+httpretty = "^1.0.2"
+sure = "^1.4.11"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"
