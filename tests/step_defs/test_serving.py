@@ -5,7 +5,7 @@ from src.bdd.salty import Shaker
 
 CONVERTERS = dict(doses=int, shakes=int, expected_remaining=int, expected_served=int)
 
-scenarios("./serving.feature", example_converters=CONVERTERS)
+scenarios("../features/serving.feature", example_converters=CONVERTERS)
 
 
 @given("A Salt Shaker with <doses> doses")
