@@ -36,6 +36,7 @@ mypy = "^0.781"
 pytest-bdd = "^3.4.0"
 pytest-watch = "^4.2.0"
 pytest-testmon = "^1.0.3"
+ipdb = "^0.13.3"
 
 [build-system]
 requires = ["poetry>=0.12"]
