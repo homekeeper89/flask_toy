@@ -7,6 +7,7 @@ from flasgger import swag_from
 @api_user.route("/", methods=["POST"])
 @swag_from("createUser.yml")
 def register():
+
     data = request.json
     res = UserUseCase().register(data)
 
