@@ -36,7 +36,10 @@ def remove_property(flask_client, user, info):
 @then(parsers.parse("서버는 <code> 과 빠진 <message> 를 포함하는 메세지로 응답한다"))
 @then("서버는 <code> 과 빠진 <message> 를 포함하는 메세지로 응답한다")
 def server(flask_client, user, code, message):
-    res = flask_client.post("/api/v1/user", json.dumps(user))
+    data = json.dumps(user)
+    res = flask_client.post(
+        "/api/v1/user/", data=data, headers={"Content-Type": "Application/json"}
+    )
     assert res.status_code == code
     assert res.data == message
 

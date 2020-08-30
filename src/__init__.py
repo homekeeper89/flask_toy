@@ -1,7 +1,6 @@
 from flask import Flask
 from src.config import config
 from src.domain import api_main, api_user
-from typing import Any, Dict, Optional
 from src.database import db
 from src.database import migrate
 from flasgger import Swagger
