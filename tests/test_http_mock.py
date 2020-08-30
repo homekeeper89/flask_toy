@@ -4,7 +4,7 @@ import requests
 
 
 @httpretty.activate
-def test_simple_api():
+def test_sample_api_should_return_ok():
     httpretty.register_uri(httpretty.POST, "https://auth.aitrics.com/api/v1/signin", body="ok")
     response = requests.post(
         "https://auth.aitrics.com/api/v1/signin", {"username": "", "password": ""}
