@@ -29,6 +29,7 @@ requests = "^2.24.0"
 httpretty = "^1.0.2"
 sure = "^1.4.11"
 selenium = "^3.141.0"
+konfig = "^1.1"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"
