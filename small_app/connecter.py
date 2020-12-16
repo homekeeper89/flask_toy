@@ -32,9 +32,10 @@ class Connecter:
     @user_info.setter
     def user_info(self, value):
         user = value.get_map("user")
+        print(f"login_info : {user}")
         self.__user_info = user
 
-    def get_elem_by_xpath(self, xpath: string):
+    def get_elem_by_xpath(self, xpath: str):
         try:
             return self.driver.find_element_by_xpath(xpath)
         except Exception as e:
@@ -46,6 +47,9 @@ class Connecter:
 
         self.do_login()
         self.type_email_password()
+
+        request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
+        elem = self.get_elem_by_xpath(request_list)
 
         return self.driver.quit()
 
@@ -67,3 +71,8 @@ class Connecter:
             '//*[@id="app-body"]/div/div/form/div/div[4]/button'
         )
         login_submit_elem.click()
+
+    def click(self, xpath: str):
+        elem = self.get_elem_by_xpath(xpath)
+        elem.click()
+
