@@ -35,7 +35,7 @@ class Connecter:
         print(f"login_info : {user}")
         self.__user_info = user
 
-    def get_elem_by_xpath(self, xpath: str):
+    def get_elem_by_xpath(self, xpath: str) -> selenium.webdriver.remote.webelement.WebElement:
         try:
             return self.driver.find_element_by_xpath(xpath)
         except Exception as e:
@@ -48,10 +48,35 @@ class Connecter:
         self.do_login()
         self.type_email_password()
 
-        request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
-        elem = self.get_elem_by_xpath(request_list)
+        close_xpath = '//*[@id="__BVID__261___BV_modal_body_"]/div[1]'
+        self.close_pop_up(close_xpath)
 
+        request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
+        request_list = self.get_elem_by_xpath(request_list).find_elements_by_tag_name("li")
+
+        self.filter_requests(request_list)
         return self.driver.quit()
+
+    def filter_requests(self, requests: list):
+        for index, request in enumerate(requests):
+            print(f"{index + 1} 번째 request")
+            request.click()
+            try:
+                self.close_pop_up('//*[@id="quote-consulting-tutorial___BV_modal_header_"]/button')
+            except Exception as e:
+                print("pop up 없음")
+            self.driver.execute_script("window.history.go(-1)")
+            delete_btn_xpath = (
+                '//*[@id="app-body"]/div/div[3]/div/ul/li[1]/div/a/div[2]/div[5]/span[2]'
+            )
+            self.click(delete_btn_xpath)
+            delete_confirm_xpath = "/html/body/div[5]/div/div[3]/button[1]"
+            self.click(delete_confirm_xpath)
+            break
+
+    def close_pop_up(self, xpath: str):
+        elem = self.get_elem_by_xpath(xpath)
+        elem.click()
 
     def do_login(self):
         login_xpath = '//*[@id="app-header"]/div[3]/ul/li[4]/a'
