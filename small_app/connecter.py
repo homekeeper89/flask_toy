@@ -65,14 +65,27 @@ class Connecter:
                 self.close_pop_up('//*[@id="quote-consulting-tutorial___BV_modal_header_"]/button')
             except Exception as e:
                 print("pop up 없음")
-            self.driver.execute_script("window.history.go(-1)")
-            delete_btn_xpath = (
-                '//*[@id="app-body"]/div/div[3]/div/ul/li[1]/div/a/div[2]/div[5]/span[2]'
-            )
-            self.click(delete_btn_xpath)
-            delete_confirm_xpath = "/html/body/div[5]/div/div[3]/button[1]"
-            self.click(delete_confirm_xpath)
+            import ipdb
+
+            ipdb.set_trace()
+            # self.go_back()
+            # self.delete_request_item()
+
             break
+
+    def check_words(self):
+        xpath = '//*[@id="app-body"]/div/div/div[1]/div/div[5]/ul'
+        elem = self.get_elem_by_xpath(xpath)
+        item_to_learn = elem.find_elements_by_tag_name("p")[1].text
+
+    def delete_request_item(self, xpath=None):
+        delete_btn_xpath = '//*[@id="app-body"]/div/div[3]/div/ul/li[1]/div/a/div[2]/div[5]/span[2]'
+        self.click(delete_btn_xpath)
+        delete_confirm_xpath = "/html/body/div[5]/div/div[3]/button[1]"
+        self.click(delete_confirm_xpath)
+
+    def go_back(self):
+        self.driver.execute_script("window.history.go(-1)")
 
     def close_pop_up(self, xpath: str):
         elem = self.get_elem_by_xpath(xpath)
