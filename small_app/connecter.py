@@ -65,9 +65,6 @@ class Connecter:
                 self.close_pop_up('//*[@id="quote-consulting-tutorial___BV_modal_header_"]/button')
             except Exception as e:
                 print("pop up 없음")
-            import ipdb
-
-            ipdb.set_trace()
             # self.go_back()
             # self.delete_request_item()
 
