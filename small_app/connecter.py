@@ -1,18 +1,21 @@
-import string
+from typing import List
 from selenium import webdriver
 import selenium
 
 from konfig import Config
 import os
+import datetime
 
 
 class Connecter:
     WAITTING_SECONDS = 15
 
-    def __init__(self, target_url):
+    def __init__(self, target_url, need_words: List[str] = [""], ben_words: List[str] = [""]):
         self.target_url = target_url
         self.driver: selenium = "chrome"
         self.user_info = Config(os.path.join(os.getcwd(), "small_app/") + "conf.ini")
+        self.need_words: List[str] = need_words
+        self.ben_words: List[str] = ben_words
 
     @property
     def driver(self):
@@ -60,20 +63,26 @@ class Connecter:
     def filter_requests(self, requests: list):
         for index, request in enumerate(requests):
             print(f"{index + 1} 번째 request")
-            request.click()
+            message = request.text
             try:
-                self.close_pop_up('//*[@id="quote-consulting-tutorial___BV_modal_header_"]/button')
-            except Exception as e:
-                print("pop up 없음")
-            # self.go_back()
-            # self.delete_request_item()
+                self.check_words(message)
+                self.make_log(message, "selected")
+            except ValueError as v:
+                print(v.args)
+                self.make_log(message)
 
-            break
+    def make_log(self, messages: str, state: str = "delete"):
+        now = datetime.datetime.now().strftime("%Y-%m-%d")
+        today = f"[{state}]_" + now
+        messages = messages.replace("\n", " ").replace("삭제", "")
+        with open(today, "a") as file:
+            file.write(messages + "\n")
 
-    def check_words(self):
-        xpath = '//*[@id="app-body"]/div/div/div[1]/div/div[5]/ul'
-        elem = self.get_elem_by_xpath(xpath)
-        item_to_learn = elem.find_elements_by_tag_name("p")[1].text
+    def check_words(self, message: str) -> bool:
+        messages = message.replace(",", "").split(" ")
+        if list(set(self.need_words) & set(messages)):
+            return True
+        raise ValueError(messages)
 
     def delete_request_item(self, xpath=None):
         delete_btn_xpath = '//*[@id="app-body"]/div/div[3]/div/ul/li[1]/div/a/div[2]/div[5]/span[2]'
