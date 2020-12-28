@@ -5,6 +5,7 @@ import selenium
 from konfig import Config
 import os
 import datetime
+import time
 
 
 class Connecter:
@@ -48,17 +49,39 @@ class Connecter:
     def execute(self):
         self.driver.get(self.target_url)
 
-        self.do_login()
+        self.click_login()
         self.type_email_password()
 
         close_xpath = '//*[@id="__BVID__261___BV_modal_body_"]/div[1]'
         self.close_pop_up(close_xpath)
 
+        self.infinity_scroll()
+        import ipdb
+
+        ipdb.set_trace()
         request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
         request_list = self.get_elem_by_xpath(request_list).find_elements_by_tag_name("li")
 
         self.filter_requests(request_list)
         return self.driver.quit()
+
+    def infinity_scroll(self, timeout: int = 2) -> None:
+        scroll_pause_time = timeout
+        # Get scroll height
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
+        while True:
+            # Scroll down to bottom
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+            # Wait to load page
+            time.sleep(scroll_pause_time)
+
+            # Calculate new scroll height and compare with last scroll height
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                # If heights are the same it will exit the function
+                break
+            last_height = new_height
 
     def filter_requests(self, requests: list):
         for index, request in enumerate(requests):
@@ -94,13 +117,11 @@ class Connecter:
         self.driver.execute_script("window.history.go(-1)")
 
     def close_pop_up(self, xpath: str):
-        elem = self.get_elem_by_xpath(xpath)
-        elem.click()
+        self.click(xpath)
 
-    def do_login(self):
+    def click_login(self):
         login_xpath = '//*[@id="app-header"]/div[3]/ul/li[4]/a'
-        login_btn = self.get_elem_by_xpath(login_xpath)
-        login_btn.click()
+        self.click(login_xpath)
 
     def type_email_password(self):
         email_xpath = '//*[@id="__BVID__229"]'
