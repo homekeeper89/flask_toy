@@ -1,4 +1,4 @@
-from typing import List
+from typing import Generator, List
 from selenium import webdriver
 import selenium
 
@@ -55,33 +55,36 @@ class Connecter:
         close_xpath = '//*[@id="__BVID__261___BV_modal_body_"]/div[1]'
         self.close_pop_up(close_xpath)
 
-        self.infinity_scroll()
-        import ipdb
-
-        ipdb.set_trace()
-        request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
-        request_list = self.get_elem_by_xpath(request_list).find_elements_by_tag_name("li")
-
-        self.filter_requests(request_list)
-        return self.driver.quit()
-
-    def infinity_scroll(self, timeout: int = 2) -> None:
-        scroll_pause_time = timeout
-        # Get scroll height
-        last_height = self.driver.execute_script("return document.body.scrollHeight")
         while True:
-            # Scroll down to bottom
+            scroll = self.infinity_scroll()
+            height = scroll.send(None)
+
+            if not height:
+                break
+
+            request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
+            request_list = self.get_elem_by_xpath(request_list).find_elements_by_tag_name("li")
+            print(len(request_list))
+
+            scroll.send(height)
+        return
+
+        # self.filter_requests(request_list)
+        # return self.driver.quit()
+
+    def infinity_scroll(self, timeout: int = 1) -> Generator:
+        scroll_pause_time = timeout
+        while True:
+            last_height = self.driver.execute_script("return document.body.scrollHeight")
+
+            height = yield last_height
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-            # Wait to load page
             time.sleep(scroll_pause_time)
 
-            # Calculate new scroll height and compare with last scroll height
             new_height = self.driver.execute_script("return document.body.scrollHeight")
-            if new_height == last_height:
-                # If heights are the same it will exit the function
-                break
-            last_height = new_height
+            if height == new_height:
+                return
 
     def filter_requests(self, requests: list):
         for index, request in enumerate(requests):
