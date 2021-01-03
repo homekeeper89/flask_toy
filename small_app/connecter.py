@@ -1,4 +1,5 @@
 from typing import Generator, List
+from requests.api import delete
 from selenium import webdriver
 import selenium
 
@@ -11,15 +12,22 @@ import time
 class Connecter:
     WAITTING_SECONDS = 15
 
-    def __init__(self, target_url, need_words: List[str] = [""], ben_words: List[str] = [""]):
+    def __init__(
+        self,
+        target_url,
+        need_words: List[str] = [""],
+        ben_words: List[str] = [""],
+        delete_mode: bool = False,
+    ):
         self.target_url = target_url
         self.driver: selenium = "chrome"
         self.user_info = Config(os.path.join(os.getcwd(), "small_app/") + "conf.ini")
         self.need_words: List[str] = need_words
         self.ben_words: List[str] = ben_words
+        self.delete_mode = delete_mode
 
     @property
-    def driver(self):
+    def driver(self) -> selenium:
         return self.__driver
 
     @driver.setter
@@ -52,27 +60,26 @@ class Connecter:
         self.click_login()
         self.type_email_password()
 
-        close_xpath = '//*[@id="__BVID__261___BV_modal_body_"]/div[1]'
+        close_xpath = '//*[@id="__BVID__265___BV_modal_body_"]/div[1]'
         self.close_pop_up(close_xpath)
 
         while True:
-            scroll = self.infinity_scroll()
+            scroll = self.infinity_scroll_generator()
             height = scroll.send(None)
 
             if not height:
                 break
-
             request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
             request_list = self.get_elem_by_xpath(request_list).find_elements_by_tag_name("li")
             print(len(request_list))
+            try:
+                scroll.send(height)
+            except StopIteration:
+                break
+        self.filter_requests(request_list)
+        return self.driver.quit()
 
-            scroll.send(height)
-        return
-
-        # self.filter_requests(request_list)
-        # return self.driver.quit()
-
-    def infinity_scroll(self, timeout: int = 1) -> Generator:
+    def infinity_scroll_generator(self, timeout: int = 1) -> Generator:
         scroll_pause_time = timeout
         while True:
             last_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -87,32 +94,36 @@ class Connecter:
                 return
 
     def filter_requests(self, requests: list):
+        number_desc = len(requests)
         for index, request in enumerate(requests):
+            number_desc -= index
             print(f"{index + 1} 번째 request")
             message = request.text
             try:
+                message = message.replace("\n", " ").replace("삭제", "")
                 self.check_words(message)
                 self.make_log(message, "selected")
             except ValueError as v:
-                print(v.args)
+                if self.delete_mode:
+                    self.delete_request_item(request)
                 self.make_log(message)
 
-    def make_log(self, messages: str, state: str = "delete"):
+    def make_log(self, message: str, state: str = "delete"):
         now = datetime.datetime.now().strftime("%Y-%m-%d")
         today = f"[{state}]_" + now
-        messages = messages.replace("\n", " ").replace("삭제", "")
         with open(today, "a") as file:
-            file.write(messages + "\n")
+            file.write(message + "\n")
 
     def check_words(self, message: str) -> bool:
         messages = message.replace(",", "").split(" ")
+        print(message)
         if list(set(self.need_words) & set(messages)):
             return True
         raise ValueError(messages)
 
-    def delete_request_item(self, xpath=None):
-        delete_btn_xpath = '//*[@id="app-body"]/div/div[3]/div/ul/li[1]/div/a/div[2]/div[5]/span[2]'
-        self.click(delete_btn_xpath)
+    def delete_request_item(self, request: selenium):
+        request.find_element_by_class_name("quote-btn").click()
+        time.sleep(1)
         delete_confirm_xpath = "/html/body/div[5]/div/div[3]/button[1]"
         self.click(delete_confirm_xpath)
 
@@ -127,11 +138,11 @@ class Connecter:
         self.click(login_xpath)
 
     def type_email_password(self):
-        email_xpath = '//*[@id="__BVID__229"]'
+        email_xpath = '//*[@id="__BVID__231"]'
         email_input = self.get_elem_by_xpath(email_xpath)
         email_input.send_keys(self.__user_info.get("email", "empty"))
 
-        pwd_xpath = '//*[@id="__BVID__231"]'
+        pwd_xpath = '//*[@id="__BVID__233"]'
         pwd_input = self.get_elem_by_xpath(pwd_xpath)
         pwd_input.send_keys(self.__user_info.get("password", "pwd"))
 
