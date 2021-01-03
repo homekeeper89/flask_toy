@@ -146,3 +146,6 @@ cython_debug/
 
 #pytest testmondata
 .testmondata
+
+#개인 정보들
+conf.ini
