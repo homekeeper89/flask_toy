@@ -6,3 +6,7 @@
 # docker 명령어 추가중
 
 - 전체 nginx docker-compose up -d
+
+# TODOS 생성
+
+- 앞으로 하고 싶은 것들
