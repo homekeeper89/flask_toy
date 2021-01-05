@@ -1,5 +1,4 @@
 from typing import Generator, List
-from requests.api import delete
 from selenium import webdriver
 import selenium
 
@@ -116,10 +115,9 @@ class Connecter:
 
     def check_words(self, message: str) -> bool:
         messages = message.replace(",", "").split(" ")
-        print(message)
         if list(set(self.need_words) & set(messages)):
             return True
-        raise ValueError(messages)
+        raise ValueError(f"필요한 단어 {self.need_words} 가 존재하지 않음")
 
     def delete_request_item(self, request: selenium):
         request.find_element_by_class_name("quote-btn").click()
