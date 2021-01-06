@@ -6,6 +6,7 @@ from konfig import Config
 import os
 import datetime
 import time
+from pathlib import Path
 
 
 class Connecter:
@@ -108,8 +109,13 @@ class Connecter:
                 self.make_log(message)
 
     def make_log(self, message: str, state: str = "delete"):
+        file_path = os.getcwd() + "/small_app/log"
+        Path(file_path).mkdir(parents=True, exist_ok=True)
+        # directory = os.path.dirname(file_path)
+        # if not os.path.exists(directory):
+        #     os.makedirs(directory)
         now = datetime.datetime.now().strftime("%Y-%m-%d")
-        today = f"[{state}]_" + now
+        today = f"{file_path}/[{state}]_" + now
         with open(today, "a") as file:
             file.write(message + "\n")
 
@@ -153,3 +159,11 @@ class Connecter:
         elem = self.get_elem_by_xpath(xpath)
         elem.click()
 
+
+if __name__ == "__main__":
+    url = "https://soomgo.com/"
+    need_words = ["파이썬", "python"]
+    ben_words = ["자바", "Java", "C언어", "c언어"]
+    obj = Connecter(url, need_words, ben_words, True)
+
+    obj.execute()
