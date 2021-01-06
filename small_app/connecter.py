@@ -10,6 +10,7 @@ from pathlib import Path
 
 
 class Connecter:
+
     WAITTING_SECONDS = 15
 
     def __init__(
@@ -63,20 +64,30 @@ class Connecter:
         close_xpath = '//*[@id="__BVID__265___BV_modal_body_"]/div[1]'
         self.close_pop_up(close_xpath)
 
+        after_request_list = []
         while True:
             scroll = self.infinity_scroll_generator()
             height = scroll.send(None)
 
             if not height:
                 break
-            request_list = '//*[@id="app-body"]/div/div[3]/div/ul'
-            request_list = self.get_elem_by_xpath(request_list).find_elements_by_tag_name("li")
+
+            request_list_xpath = '//*[@id="app-body"]/div/div[3]/div/ul'
+            request_list = self.get_elem_by_xpath(request_list_xpath).find_elements_by_tag_name(
+                "li"
+            )
+
+            if after_request_list:
+                request_list = after_request_list + request_list
+
             print(len(request_list))
+            deleted_index_list = self.filter_requests(request_list)
+            for index in deleted_index_list:
+                del request_list[index]
             try:
                 scroll.send(height)
             except StopIteration:
                 break
-        self.filter_requests(request_list)
         return self.driver.quit()
 
     def infinity_scroll_generator(self, timeout: int = 1) -> Generator:
@@ -94,28 +105,31 @@ class Connecter:
                 return
 
     def filter_requests(self, requests: list):
-        number_desc = len(requests)
+        deleted_index = []
         for index, request in enumerate(requests):
-            number_desc -= index
             print(f"{index + 1} 번째 request")
             message = request.text
+            is_delete = False
             try:
                 message = message.replace("\n", " ").replace("삭제", "")
                 self.check_words(message)
                 self.make_log(message, "selected")
             except ValueError as v:
                 if self.delete_mode:
-                    self.delete_request_item(request)
+                    is_delete = self.delete_request_item(request)
                 self.make_log(message)
+            finally:
+                if is_delete:
+                    deleted_index.append(index)
+
+        return deleted_index
 
     def make_log(self, message: str, state: str = "delete"):
-        file_path = os.getcwd() + "/small_app/log"
+        now = datetime.datetime.now().strftime("%Y_%m_%d")
+        file_path = os.getcwd() + "/small_app/log/" + now
         Path(file_path).mkdir(parents=True, exist_ok=True)
-        # directory = os.path.dirname(file_path)
-        # if not os.path.exists(directory):
-        #     os.makedirs(directory)
-        now = datetime.datetime.now().strftime("%Y-%m-%d")
-        today = f"{file_path}/[{state}]_" + now
+
+        today = f"{file_path}/[{state}]"
         with open(today, "a") as file:
             file.write(message + "\n")
 
@@ -126,10 +140,39 @@ class Connecter:
         raise ValueError(f"필요한 단어 {self.need_words} 가 존재하지 않음")
 
     def delete_request_item(self, request: selenium):
-        request.find_element_by_class_name("quote-btn").click()
-        time.sleep(1)
+        elem = request.find_element_by_class_name("quote-btn")
+        if not self.is_element_in_screen(elem):
+            return False
+
+        elem.click()
         delete_confirm_xpath = "/html/body/div[5]/div/div[3]/button[1]"
         self.click(delete_confirm_xpath)
+        return True
+
+    def is_element_in_screen(self, elem):
+        # https://stackoverflow.com/questions/34771094/how-can-i-check-if-an-element-is-completely-visible-on-the-screen
+        elem_left_bound = elem.location.get("x")
+        elem_top_bound = elem.location.get("y")
+        elem_width = elem.size.get("width")
+        elem_height = elem.size.get("height")
+        elem_right_bound = elem_left_bound + elem_width
+        elem_lower_bound = elem_top_bound + elem_height
+
+        win_upper_bound = self.driver.execute_script("return window.pageYOffset")
+        win_left_bound = self.driver.execute_script("return window.pageXOffset")
+        win_width = self.driver.execute_script("return document.documentElement.clientWidth")
+        win_height = self.driver.execute_script("return document.documentElement.clientHeight")
+        win_right_bound = win_left_bound + win_width
+        win_lower_bound = win_upper_bound + win_height
+
+        return all(
+            (
+                win_left_bound <= elem_left_bound,
+                win_right_bound >= elem_right_bound,
+                win_upper_bound <= elem_top_bound,
+                win_lower_bound >= elem_lower_bound,
+            )
+        )
 
     def go_back(self):
         self.driver.execute_script("window.history.go(-1)")
