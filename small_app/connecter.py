@@ -12,6 +12,7 @@ from pathlib import Path
 class Connecter:
 
     WAITTING_SECONDS = 15
+    SELECTED_COUNT, DELETED_COUNT = 0, 0
 
     def __init__(
         self,
@@ -64,7 +65,7 @@ class Connecter:
         close_xpath = '//*[@id="__BVID__265___BV_modal_body_"]/div[1]'
         self.close_pop_up(close_xpath)
 
-        after_request_list = []
+        end_index = None
         while True:
             scroll = self.infinity_scroll_generator()
             height = scroll.send(None)
@@ -76,18 +77,24 @@ class Connecter:
             request_list = self.get_elem_by_xpath(request_list_xpath).find_elements_by_tag_name(
                 "li"
             )
+            if end_index:
+                request_list = request_list[end_index:]
 
-            if after_request_list:
-                request_list = after_request_list + request_list
+            try:
+                self.filter_requests(request_list)
+            except ValueError as v:
+                # v.args 는 tuple 다
+                end_index = v.args[0].get("end_index", 0)
 
-            print(len(request_list))
-            deleted_index_list = self.filter_requests(request_list)
-            for index in deleted_index_list:
-                del request_list[index]
             try:
                 scroll.send(height)
             except StopIteration:
                 break
+
+        now = datetime.datetime.now().strftime("%Y_%m_%d")
+        print(
+            f"{now} 총 요청 : {self.SELECTED_COUNT + self.DELETED_COUNT}, 선택갯수 : {self.SELECTED_COUNT} 삭제갯수 : {self.DELETED_COUNT}"
+        )
         return self.driver.quit()
 
     def infinity_scroll_generator(self, timeout: int = 1) -> Generator:
@@ -105,24 +112,19 @@ class Connecter:
                 return
 
     def filter_requests(self, requests: list):
-        deleted_index = []
         for index, request in enumerate(requests):
-            print(f"{index + 1} 번째 request")
+            if not self.is_element_in_screen(request):
+                raise ValueError({"end_index": index})
             message = request.text
-            is_delete = False
             try:
                 message = message.replace("\n", " ").replace("삭제", "")
                 self.check_words(message)
                 self.make_log(message, "selected")
+                self.SELECTED_COUNT += 1
             except ValueError as v:
                 if self.delete_mode:
-                    is_delete = self.delete_request_item(request)
+                    self.delete_request_item(request)
                 self.make_log(message)
-            finally:
-                if is_delete:
-                    deleted_index.append(index)
-
-        return deleted_index
 
     def make_log(self, message: str, state: str = "delete"):
         now = datetime.datetime.now().strftime("%Y_%m_%d")
@@ -140,11 +142,9 @@ class Connecter:
         raise ValueError(f"필요한 단어 {self.need_words} 가 존재하지 않음")
 
     def delete_request_item(self, request: selenium):
-        elem = request.find_element_by_class_name("quote-btn")
-        if not self.is_element_in_screen(elem):
-            return False
+        self.DELETED_COUNT += 1
 
-        elem.click()
+        request.find_element_by_class_name("quote-btn").click()
         delete_confirm_xpath = "/html/body/div[5]/div/div[3]/button[1]"
         self.click(delete_confirm_xpath)
         return True
