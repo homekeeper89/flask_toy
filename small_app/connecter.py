@@ -77,11 +77,15 @@ class Connecter:
             request_list = self.get_elem_by_xpath(request_list_xpath).find_elements_by_tag_name(
                 "li"
             )
+            request_list_with_name = [
+                {"name": request.text.split("\n")[0], "elem": request} for request in request_list
+            ]
+
             if end_index:
                 request_list = request_list[end_index:]
 
             try:
-                self.filter_requests(request_list)
+                self.filter_requests(request_list_with_name)
             except ValueError as v:
                 # v.args 는 tuple 다
                 end_index = v.args[0].get("end_index", 0)
@@ -111,9 +115,10 @@ class Connecter:
             if height == new_height:
                 return
 
-    def filter_requests(self, requests: list):
+    def filter_requests(self, requests: list[dict]):
         for index, request in enumerate(requests):
-            if not self.is_element_in_screen(request):
+            print(request.get("name"))
+            if not self.is_element_in_screen(request.get("elem")):
                 raise ValueError({"end_index": index})
             message = request.text
             try:
@@ -207,6 +212,6 @@ if __name__ == "__main__":
     url = "https://soomgo.com/"
     need_words = ["파이썬", "python"]
     ben_words = ["자바", "Java", "C언어", "c언어"]
-    obj = Connecter(url, need_words, ben_words, True)
+    obj = Connecter(url, need_words, ben_words, delete_mode=False)
 
     obj.execute()
