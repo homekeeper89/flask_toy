@@ -1,6 +1,8 @@
-from typing import Generator, List
+import re
+from typing import List, Dict, Generator
 from selenium import webdriver
 import selenium
+from selenium.webdriver.support import expected_conditions as EC
 
 from konfig import Config
 import os
@@ -64,8 +66,6 @@ class Connecter:
 
         close_xpath = '//*[@id="__BVID__265___BV_modal_body_"]/div[1]'
         self.close_pop_up(close_xpath)
-
-        end_index = None
         while True:
             scroll = self.infinity_scroll_generator()
             height = scroll.send(None)
@@ -81,15 +81,9 @@ class Connecter:
                 {"name": request.text.split("\n")[0], "elem": request} for request in request_list
             ]
 
-            if end_index:
-                request_list = request_list[end_index:]
+            request_list_with_name = self.make_request_in_screen(request_list_with_name)
 
-            try:
-                self.filter_requests(request_list_with_name)
-            except ValueError as v:
-                # v.args 는 tuple 다
-                end_index = v.args[0].get("end_index", 0)
-
+            self.filter_requests(request_list_with_name)
             try:
                 scroll.send(height)
             except StopIteration:
@@ -97,9 +91,16 @@ class Connecter:
 
         now = datetime.datetime.now().strftime("%Y_%m_%d")
         print(
-            f"{now} 총 요청 : {self.SELECTED_COUNT + self.DELETED_COUNT}, 선택갯수 : {self.SELECTED_COUNT} 삭제갯수 : {self.DELETED_COUNT}"
+            f"{now} 총 요청 : {self.SELECTED_COUNT}, 선택갯수 : {self.SELECTED_COUNT - self.DELETED_COUNT} 삭제갯수 : {self.DELETED_COUNT}"
         )
         return self.driver.quit()
+
+    def make_request_in_screen(self, requests) -> List:
+        requests_in_screen = []
+        for _, request in enumerate(requests):
+            if self.is_element_in_screen(request.get("elem")):
+                requests_in_screen.append(request)
+        return requests_in_screen
 
     def infinity_scroll_generator(self, timeout: int = 1) -> Generator:
         scroll_pause_time = timeout
@@ -115,20 +116,18 @@ class Connecter:
             if height == new_height:
                 return
 
-    def filter_requests(self, requests: list[dict]):
-        for index, request in enumerate(requests):
-            print(request.get("name"))
-            if not self.is_element_in_screen(request.get("elem")):
-                raise ValueError({"end_index": index})
-            message = request.text
+    def filter_requests(self, requests: List[Dict]):
+        for _, request in enumerate(requests):
+            self.SELECTED_COUNT += 1
+            elem = request.get("elem")
+            message = elem.text
             try:
                 message = message.replace("\n", " ").replace("삭제", "")
                 self.check_words(message)
                 self.make_log(message, "selected")
-                self.SELECTED_COUNT += 1
             except ValueError as v:
                 if self.delete_mode:
-                    self.delete_request_item(request)
+                    self.delete_request_item(elem)
                 self.make_log(message)
 
     def make_log(self, message: str, state: str = "delete"):
@@ -147,11 +146,15 @@ class Connecter:
         raise ValueError(f"필요한 단어 {self.need_words} 가 존재하지 않음")
 
     def delete_request_item(self, request: selenium):
-        self.DELETED_COUNT += 1
+        try:
+            request.find_element_by_class_name("quote-btn").click()
+        except selenium.common.exceptions.ElementClickInterceptedException as e:
+            print("클릭 불가능한 요청 사항 name", request.text.split("\n")[0], e)
+            return request
 
-        request.find_element_by_class_name("quote-btn").click()
         delete_confirm_xpath = "/html/body/div[5]/div/div[3]/button[1]"
         self.click(delete_confirm_xpath)
+        self.DELETED_COUNT += 1
         return True
 
     def is_element_in_screen(self, elem):
@@ -212,6 +215,6 @@ if __name__ == "__main__":
     url = "https://soomgo.com/"
     need_words = ["파이썬", "python"]
     ben_words = ["자바", "Java", "C언어", "c언어"]
-    obj = Connecter(url, need_words, ben_words, delete_mode=False)
+    obj = Connecter(url, need_words, ben_words, delete_mode=True)
 
     obj.execute()
