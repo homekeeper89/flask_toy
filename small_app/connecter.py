@@ -1,14 +1,17 @@
-import re
-from typing import List, Dict, Generator
-from selenium import webdriver
-import selenium
-from selenium.webdriver.support import expected_conditions as EC
-
-from konfig import Config
 import os
 import datetime
 import time
+
+from typing import List, Dict, Generator
+from selenium import webdriver
+
+from konfig import Config
 from pathlib import Path
+
+import selenium
+from selenium.webdriver.support import expected_conditions as EC
+
+from custom_element import CustomElement
 
 
 class Connecter:
@@ -98,7 +101,8 @@ class Connecter:
     def make_request_in_screen(self, requests) -> List:
         requests_in_screen = []
         for _, request in enumerate(requests):
-            if self.is_element_in_screen(request.get("elem")):
+            celm = CustomElement(self.driver, request.get("elem"))
+            if celm.is_elem_in_screen():
                 requests_in_screen.append(request)
         return requests_in_screen
 
@@ -156,31 +160,6 @@ class Connecter:
         self.click(delete_confirm_xpath)
         self.DELETED_COUNT += 1
         return True
-
-    def is_element_in_screen(self, elem):
-        # https://stackoverflow.com/questions/34771094/how-can-i-check-if-an-element-is-completely-visible-on-the-screen
-        elem_left_bound = elem.location.get("x")
-        elem_top_bound = elem.location.get("y")
-        elem_width = elem.size.get("width")
-        elem_height = elem.size.get("height")
-        elem_right_bound = elem_left_bound + elem_width
-        elem_lower_bound = elem_top_bound + elem_height
-
-        win_upper_bound = self.driver.execute_script("return window.pageYOffset")
-        win_left_bound = self.driver.execute_script("return window.pageXOffset")
-        win_width = self.driver.execute_script("return document.documentElement.clientWidth")
-        win_height = self.driver.execute_script("return document.documentElement.clientHeight")
-        win_right_bound = win_left_bound + win_width
-        win_lower_bound = win_upper_bound + win_height
-
-        return all(
-            (
-                win_left_bound <= elem_left_bound,
-                win_right_bound >= elem_right_bound,
-                win_upper_bound <= elem_top_bound,
-                win_lower_bound >= elem_lower_bound,
-            )
-        )
 
     def go_back(self):
         self.driver.execute_script("window.history.go(-1)")
