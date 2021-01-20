@@ -124,8 +124,9 @@ class Connecter:
         for _, request in enumerate(requests):
             self.SELECTED_COUNT += 1
             elem = request.get("elem")
-            message = elem.text
+
             try:
+                message = elem.text
                 message = message.replace("\n", " ").replace("삭제", "")
                 self.check_words(message)
                 self.make_log(message, "selected")
