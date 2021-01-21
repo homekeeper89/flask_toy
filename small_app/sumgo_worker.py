@@ -14,7 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from custom_element import CustomElement
 
 
-class Connecter:
+class SumgoWorker:
 
     WAITTING_SECONDS = 15
     SELECTED_COUNT, DELETED_COUNT = 0, 0
@@ -84,7 +84,7 @@ class Connecter:
                 {"name": request.text.split("\n")[0], "elem": request} for request in request_list
             ]
 
-            request_list_with_name = self.make_request_in_screen(request_list_with_name)
+            request_list_with_name = self.filter_elem_if_in_screen(request_list_with_name)
 
             self.filter_requests(request_list_with_name)
             try:
@@ -98,7 +98,7 @@ class Connecter:
         )
         return self.driver.quit()
 
-    def make_request_in_screen(self, requests) -> List:
+    def filter_elem_if_in_screen(self, requests) -> List:
         requests_in_screen = []
         for _, request in enumerate(requests):
             celm = CustomElement(self.driver, request.get("elem"))
@@ -124,9 +124,9 @@ class Connecter:
         for _, request in enumerate(requests):
             self.SELECTED_COUNT += 1
             elem = request.get("elem")
+            message = elem.text
 
             try:
-                message = elem.text
                 message = message.replace("\n", " ").replace("삭제", "")
                 self.check_words(message)
                 self.make_log(message, "selected")
@@ -194,7 +194,7 @@ class Connecter:
 if __name__ == "__main__":
     url = "https://soomgo.com/"
     need_words = ["파이썬", "python"]
-    ben_words = ["자바", "Java", "C언어", "c언어"]
-    obj = Connecter(url, need_words, ben_words, delete_mode=True)
+    ben_words = ["자바", "Java", "C언어", "c언어", "딥러닝", "머신러닝"]
+    obj = SumgoWorker(url, need_words, ben_words, delete_mode=True)
 
     obj.execute()
