@@ -1,11 +1,23 @@
+import os
 from abc import ABCMeta, abstractmethod
+from konfig import Config
 from dataclass.user_data import UserData
 
 
 class BaseWorker(metaclass=ABCMeta):
-    def __init__(self, user_data: UserData):
-        self.email = user_data.email
-        self.password = user_data.password
+    def __init__(self, conf: str = None):
+        self.conf = conf
+
+    @property
+    def conf(self):
+        return self.__conf
+
+    @conf.setter
+    def conf(self, value: str):
+        user_info: dict = Config(os.path.join(os.getcwd(), "small_app/") + "conf.ini")
+        if user_info:
+            self.email = user_info.get("email")
+            self.password = user_info.get("password")
 
     # @abstractmethod
     # def go_to_login(self):
