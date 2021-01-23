@@ -13,8 +13,8 @@ class BaseWorker(metaclass=ABCMeta):
         return self.__conf
 
     @conf.setter
-    def conf(self, value: str):
-        user_info: dict = Config(os.path.join(os.getcwd(), "small_app/") + "conf.ini")
+    def conf(self, value: str = "conf.ini"):
+        user_info: dict = Config(os.path.join(os.getcwd(), "small_app/") + value)
         if user_info:
             self.email = user_info.get("email")
             self.password = user_info.get("password")
