@@ -10,7 +10,7 @@ class UserConfigData(BaseModel):
     waiting_seconds: Optional[int] = 15
 
     @validator("driver")
-    def is_driver_in_list(self, value: str):
+    def is_driver_in_list(cls, value: str):
         basic_driver = ["chrome", "firefox"]
         if value not in basic_driver:
             raise ValueError("지원하지 않는 드라이버")

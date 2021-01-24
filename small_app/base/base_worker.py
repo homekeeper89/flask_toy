@@ -1,7 +1,7 @@
 import os
 from abc import ABCMeta, abstractmethod
 from konfig import Config
-from dataclass.user_data import UserData
+from dataclass.user_data import UserConfigData
 
 
 class BaseWorker(metaclass=ABCMeta):
@@ -14,9 +14,10 @@ class BaseWorker(metaclass=ABCMeta):
 
     @conf.setter
     def conf(self, value: str = "conf.ini"):
-        user_info: dict = Config(os.path.join(os.getcwd(), "small_app/") + value)
+        user_info: dict = Config(os.path.join(os.getcwd(), "small_app/") + value).get_map("user")
         if user_info:
-            self.user_data = UserData(**user_info)
+            self.user_data = UserConfigData(**user_info)
+            print(self.user_data)
 
     # @abstractmethod
     # def go_to_login(self):
