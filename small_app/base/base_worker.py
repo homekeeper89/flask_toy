@@ -16,8 +16,7 @@ class BaseWorker(metaclass=ABCMeta):
     def conf(self, value: str = "conf.ini"):
         user_info: dict = Config(os.path.join(os.getcwd(), "small_app/") + value)
         if user_info:
-            self.email = user_info.get("email")
-            self.password = user_info.get("password")
+            self.user_data = UserData(**user_info)
 
     # @abstractmethod
     # def go_to_login(self):
