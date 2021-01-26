@@ -4,11 +4,11 @@ from pydantic import BaseModel, ValidationError, validator
 
 
 class UserConfigData(BaseModel):
+    target_url: str
     email: str
     password: str
     driver: str
     waiting_seconds: Optional[int] = 15
-    is_delete_mode: bool = True
 
     @validator("driver")
     def is_driver_in_list(cls, value: str):
