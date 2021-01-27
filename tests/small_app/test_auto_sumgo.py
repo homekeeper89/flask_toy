@@ -1,4 +1,5 @@
 from small_app.connecter import Connecter
+from small_app.utils import make_log
 
 
 def test_auth_connect_should_go_homepage():

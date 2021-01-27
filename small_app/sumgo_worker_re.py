@@ -1,5 +1,6 @@
 import os
 import datetime
+from small_app.dataclass.user_data import FilterData
 import time
 
 from typing import List, Dict, Generator
@@ -19,15 +20,11 @@ class SumgoWorker(BaseWorker):
     SELECTED_COUNT, DELETED_COUNT = 0, 0
 
     def __init__(
-        self,
-        conf: str = "conf.ini",
-        need_words: List[str] = [""],
-        ben_words: List[str] = [""],
-        is_delete: bool = True,
+        self, conf: str = "conf.ini", words: FilterData = None, is_delete: bool = True,
     ):
         super().__init__(conf)
-        self.need_words: List[str] = need_words
-        self.ben_words: List[str] = ben_words
+        self.need_words: List[str] = words.need_words
+        self.ben_words: List[str] = words.ben_words
         self.is_delete = is_delete
 
     def get_elem_by_xpath(self, xpath: str) -> selenium.webdriver.remote.webelement.WebElement:
@@ -170,5 +167,7 @@ class SumgoWorker(BaseWorker):
 if __name__ == "__main__":
     need_words = ["파이썬", "python"]
     ben_words = ["자바", "Java", "C언어", "c언어", "딥러닝", "머신러닝"]
-    sw = SumgoWorker("conf.ini", need_words, ben_words)
+    words = FilterData(need_words=need_words, ben_words=ben_words)
+
+    sw = SumgoWorker("conf.ini", words)
     sw.execute()
