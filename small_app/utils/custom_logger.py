@@ -5,4 +5,3 @@ class CustomLogger:
     def make_log(self, path: str, contents: str):
         if self.category == "file":
             return True
-
