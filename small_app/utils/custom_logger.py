@@ -9,7 +9,9 @@ class CustomLogger:
 
     def make_log(self, contents: dict):
         if self.category == "file":
-            return True
+            self.make_file_log(contents)
+
+    def make_file_log(self, contents: dict):
         now = datetime.datetime.now().strftime("%Y_%m_%d")
         file_path = os.getcwd() + "/small_app/log/" + now
         Path(file_path).mkdir(parents=True, exist_ok=True)
