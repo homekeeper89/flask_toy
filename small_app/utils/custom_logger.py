@@ -22,3 +22,9 @@ class CustomLogger:
         today = f"{file_path}/[{state}]"
         with open(today, "a") as file:
             file.write(message + "\n")
+
+    def make_sms_log(self):
+        pass
+
+    def make_cloud_log(self):
+        pass
