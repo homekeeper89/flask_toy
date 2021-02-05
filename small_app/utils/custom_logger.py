@@ -10,6 +10,10 @@ class CustomLogger:
     def make_log(self, contents: dict):
         if self.category == "file":
             self.make_file_log(contents)
+        elif self.category == "sms":
+            self.make_sms_log(contents)
+        else:
+            self.make_cloud_log(contents)
 
     def make_file_log(self, contents: dict):
         now = datetime.datetime.now().strftime("%Y_%m_%d")
