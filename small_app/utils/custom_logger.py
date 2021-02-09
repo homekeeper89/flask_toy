@@ -6,6 +6,7 @@ from pathlib import Path
 class CustomLogger:
     def __init__(self, category: str):
         self.category = category
+        self.date = datetime.datetime.now().strftime("%Y_%m_%d")
 
     def make_log(self, contents: dict):
         if self.category == "file":
@@ -16,8 +17,7 @@ class CustomLogger:
             self.make_cloud_log(contents)
 
     def make_file_log(self, contents: dict):
-        now = datetime.datetime.now().strftime("%Y_%m_%d")
-        file_path = os.getcwd() + "/small_app/log/" + now
+        file_path = os.getcwd() + "/small_app/log/" + self.date
         Path(file_path).mkdir(parents=True, exist_ok=True)
 
         state = contents.get("state", "delete")
