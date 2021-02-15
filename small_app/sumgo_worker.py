@@ -1,55 +1,31 @@
-import re
+import os
+import datetime
+from small_app.dataclass.user_data import FilterData
+import time
+
 from typing import List, Dict, Generator
 from selenium import webdriver
+
+from konfig import Config
+from pathlib import Path
+
 import selenium
 from selenium.webdriver.support import expected_conditions as EC
 
-from konfig import Config
-import os
-import datetime
-import time
-from pathlib import Path
+from base.base_worker import BaseWorker
+from custom_element import CustomElement
 
 
-class Connecter:
-
-    WAITTING_SECONDS = 15
+class SumgoWorker(BaseWorker):
     SELECTED_COUNT, DELETED_COUNT = 0, 0
 
     def __init__(
-        self,
-        target_url,
-        need_words: List[str] = [""],
-        ben_words: List[str] = [""],
-        delete_mode: bool = False,
+        self, conf: str = "conf.ini", words: FilterData = None, is_delete: bool = True,
     ):
-        self.target_url = target_url
-        self.driver: selenium = "chrome"
-        self.user_info = Config(os.path.join(os.getcwd(), "small_app/") + "conf.ini")
-        self.need_words: List[str] = need_words
-        self.ben_words: List[str] = ben_words
-        self.delete_mode = delete_mode
-
-    @property
-    def driver(self) -> selenium:
-        return self.__driver
-
-    @driver.setter
-    def driver(self, value):
-        if value == "chrome":
-            self.__driver = webdriver.Chrome("/usr/local/bin/chromedriver")
-            self.__driver.implicitly_wait(self.WAITTING_SECONDS)
-        print(f"{value} driver is ready")
-
-    @property
-    def user_info(self):
-        return self.__user_info
-
-    @user_info.setter
-    def user_info(self, value):
-        user = value.get_map("user")
-        print(f"login_info : {user}")
-        self.__user_info = user
+        super().__init__(conf)
+        self.need_words: List[str] = words.need_words
+        self.ben_words: List[str] = words.ben_words
+        self.is_delete = is_delete
 
     def get_elem_by_xpath(self, xpath: str) -> selenium.webdriver.remote.webelement.WebElement:
         try:
@@ -58,11 +34,33 @@ class Connecter:
             print(f"[Error] {e}")
             return None
 
-    def execute(self):
-        self.driver.get(self.target_url)
+    def click(self, xpath: str):
+        elem = self.get_elem_by_xpath(xpath)
+        elem.click()
 
-        self.click_login()
-        self.type_email_password()
+    def go_to_login_page(self):
+        login_xpath = '//*[@id="app-header"]/div[3]/ul/li[4]/a'
+        self.click(login_xpath)
+
+    def type_login_information(self):
+        email_xpath = '//*[@id="__BVID__231"]'
+        email_input = self.get_elem_by_xpath(email_xpath)
+        email_input.send_keys(self.user_data.email)
+
+        pwd_xpath = '//*[@id="__BVID__233"]'
+        pwd_input = self.get_elem_by_xpath(pwd_xpath)
+        pwd_input.send_keys(self.user_data.password)
+
+        login_submit_elem = self.get_elem_by_xpath(
+            '//*[@id="app-body"]/div/div/form/div/div[4]/button'
+        )
+        login_submit_elem.click()
+
+    def execute(self):
+        self.driver.get(self.user_data.target_url)
+
+        self.go_to_login_page()
+        self.type_login_information()
 
         close_xpath = '//*[@id="__BVID__265___BV_modal_body_"]/div[1]'
         self.close_pop_up(close_xpath)
@@ -81,7 +79,7 @@ class Connecter:
                 {"name": request.text.split("\n")[0], "elem": request} for request in request_list
             ]
 
-            request_list_with_name = self.make_request_in_screen(request_list_with_name)
+            request_list_with_name = self.filter_elem_if_in_screen(request_list_with_name)
 
             self.filter_requests(request_list_with_name)
             try:
@@ -95,10 +93,11 @@ class Connecter:
         )
         return self.driver.quit()
 
-    def make_request_in_screen(self, requests) -> List:
+    def filter_elem_if_in_screen(self, requests) -> List:
         requests_in_screen = []
         for _, request in enumerate(requests):
-            if self.is_element_in_screen(request.get("elem")):
+            celm = CustomElement(self.driver, request.get("elem"))
+            if celm.is_elem_in_screen():
                 requests_in_screen.append(request)
         return requests_in_screen
 
@@ -121,12 +120,13 @@ class Connecter:
             self.SELECTED_COUNT += 1
             elem = request.get("elem")
             message = elem.text
+
             try:
                 message = message.replace("\n", " ").replace("삭제", "")
                 self.check_words(message)
                 self.make_log(message, "selected")
             except ValueError as v:
-                if self.delete_mode:
+                if self.is_delete:
                     self.delete_request_item(elem)
                 self.make_log(message)
 
@@ -157,64 +157,17 @@ class Connecter:
         self.DELETED_COUNT += 1
         return True
 
-    def is_element_in_screen(self, elem):
-        # https://stackoverflow.com/questions/34771094/how-can-i-check-if-an-element-is-completely-visible-on-the-screen
-        elem_left_bound = elem.location.get("x")
-        elem_top_bound = elem.location.get("y")
-        elem_width = elem.size.get("width")
-        elem_height = elem.size.get("height")
-        elem_right_bound = elem_left_bound + elem_width
-        elem_lower_bound = elem_top_bound + elem_height
-
-        win_upper_bound = self.driver.execute_script("return window.pageYOffset")
-        win_left_bound = self.driver.execute_script("return window.pageXOffset")
-        win_width = self.driver.execute_script("return document.documentElement.clientWidth")
-        win_height = self.driver.execute_script("return document.documentElement.clientHeight")
-        win_right_bound = win_left_bound + win_width
-        win_lower_bound = win_upper_bound + win_height
-
-        return all(
-            (
-                win_left_bound <= elem_left_bound,
-                win_right_bound >= elem_right_bound,
-                win_upper_bound <= elem_top_bound,
-                win_lower_bound >= elem_lower_bound,
-            )
-        )
-
     def go_back(self):
         self.driver.execute_script("window.history.go(-1)")
 
     def close_pop_up(self, xpath: str):
         self.click(xpath)
 
-    def click_login(self):
-        login_xpath = '//*[@id="app-header"]/div[3]/ul/li[4]/a'
-        self.click(login_xpath)
-
-    def type_email_password(self):
-        email_xpath = '//*[@id="__BVID__231"]'
-        email_input = self.get_elem_by_xpath(email_xpath)
-        email_input.send_keys(self.__user_info.get("email", "empty"))
-
-        pwd_xpath = '//*[@id="__BVID__233"]'
-        pwd_input = self.get_elem_by_xpath(pwd_xpath)
-        pwd_input.send_keys(self.__user_info.get("password", "pwd"))
-
-        login_submit_elem = self.get_elem_by_xpath(
-            '//*[@id="app-body"]/div/div/form/div/div[4]/button'
-        )
-        login_submit_elem.click()
-
-    def click(self, xpath: str):
-        elem = self.get_elem_by_xpath(xpath)
-        elem.click()
-
 
 if __name__ == "__main__":
-    url = "https://soomgo.com/"
     need_words = ["파이썬", "python"]
-    ben_words = ["자바", "Java", "C언어", "c언어"]
-    obj = Connecter(url, need_words, ben_words, delete_mode=True)
+    ben_words = ["자바", "Java", "C언어", "c언어", "딥러닝", "머신러닝"]
+    words = FilterData(need_words=need_words, ben_words=ben_words)
 
-    obj.execute()
+    sw = SumgoWorker("conf.ini", words)
+    sw.execute()
